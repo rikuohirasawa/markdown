@@ -1,32 +1,27 @@
 <script lang="ts">
     import { marked } from "marked";
-	import { json } from "@sveltejs/kit";
-    import { Group, Button } from '@svelteuidev/core';
+    import { Button } from '@svelteuidev/core';
     import Modal from "$lib/components/Modal.svelte";
     
     let showModal = false;
-    let markdownContent = "";
+    export let markdownContent = "";
 
     $: compiledMarkdown = marked(markdownContent);
 
-
     const validateMarkdown = (text: string) => {
         if (text.trim().length === 0) {
-            console.log("markdown is empty");
-        }
+            return false;
+        };
+        return true;
     };
 
     const callApi = async (action: string, params: { content: string }) => {
-        console.log(markdownContent.length)
-        console.log(markdownContent)
         validateMarkdown(markdownContent);
         const response = await fetch("/api", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action, params })        
         });
-        console.log(await response.json())
-        // showModal = true;
     };
 
     let opened = false;
@@ -49,7 +44,7 @@
         <div class="input-footer">
             <Button on:click={async ()=>{
                 // const response = await fetch("/api");
-                callApi("getGreeting", { content: markdownContent })
+                callApi("insertURL", { content: markdownContent })
             }}>Click to share</Button>
         </div>
     </div>

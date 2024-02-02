@@ -1,31 +1,68 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
-
-// RPC endpoint
-interface RPCparams {
-    request: {
-        action: string,
-        params: any,
-    },
-}
+import { db } from './utils';
+import { v4 as uuidv4 } from 'uuid';
 
 export const POST: RequestHandler = async ({ request }) => {
-    console.log("post");
-    const { action, params } = await request.json();
-    console.log(params);
 
-    switch (action) {
-        case "getGreeting": 
-            return json({
-                message: "greeting",
-                status: 200,
-            })
-        default: 
-            return json({
-                message: "default",
-                status: 404,
-            })
+    try {
+        const { action, params } = await request.json();
+        
+        switch(action) {
+            case "insertURL": 
+                const { content } = params;
+                const uuid = uuidv4();
+                await db.insertInto("urls.markdown").values({
+                    content,
+                    uuid,
+                }).execute();
+                return json({
+                    status: 200,
+                    message: uuid,
+                });
+            case "selectURL":
+                const { id } = params;
+                await db.selectFrom("urls.markdown").select("uuid").where("uuid", "=", id)
+            default: 
+                return json({
+                    status: 404,
+                    message: "Endpoint not found",
+                });
+        }
+
+
+
+        // console.log(insert);
+        // const query = db.selectFrom("urls.markdown").selectAll();
+        // const data = await query.execute();
+        // console.log(data)
+        // const db = await pool.query("SELECT * FROM urls.markdown");
+        // const insert = await pool.query("INSERT INTO")
+        // console.log(db.rows)
+
+    } catch (error) {
+        console.error(error);
+        return json({
+            status: 500,
+            message: "Server Error"
+        });
     }
+
+    console.log("post");
+    // console.log(params);
+
+    // switch (action) {
+    //     case "getGreeting": 
+    //         return json({
+    //             message: "greeting",
+    //             status: 200,
+    //         })
+    //     default: 
+    //         return json({
+    //             message: "default",
+    //             status: 404,
+    //         })
+    // }
 };
 
 export function GET() {
