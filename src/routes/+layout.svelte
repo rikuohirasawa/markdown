@@ -1,7 +1,10 @@
 <script>
     import { SvelteUIProvider } from '@svelteuidev/core';
+    import { Toaster } from 'svelte-french-toast'
+
 </script>
 
+<Toaster/>
 <SvelteUIProvider withNormalizeCSS withGlobalStyles themeObserver="dark">
     <slot/>
 </SvelteUIProvider>

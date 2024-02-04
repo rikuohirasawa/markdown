@@ -1,16 +1,23 @@
 import pg from "pg";
 const { Pool } = pg;
-
+import { 
+    DOMAIN_NAME,
+    PG_DATABASE,
+    PG_HOST,
+    PG_PORT,
+    PG_USER,
+    PG_TABLE
+} from '$env/static/private';
 import { type Generated, PostgresDialect, Kysely } from "kysely";
 
 export const pool = new Pool({
-    user: process.env.PG_USER,
-    host: process.env.PG_HOST,
+    user: PG_USER,
+    host: PG_HOST,
     max: 20,
     port: 5432,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000,
-    database: process.env.PG_TABLE,
+    database: PG_DATABASE,
 });
 
 // kysely types
@@ -27,13 +34,13 @@ export interface Database {
 
 const dialect = new PostgresDialect({
     pool: new pg.Pool({
-        user: "rikuo",
-        host: "localhost",
+        user: PG_USER,
+        host: PG_HOST,
         max: 20,
         port: 5432,
         idleTimeoutMillis: 30000,
         connectionTimeoutMillis: 2000,
-        database: "markdown_editor"   
+        database: PG_DATABASE,   
     })
 });
 

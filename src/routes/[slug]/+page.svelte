@@ -6,4 +6,5 @@
 
 <Editor 
     markdownContent={content}
+    isSaved={true}
 />

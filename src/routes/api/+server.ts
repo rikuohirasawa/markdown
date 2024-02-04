@@ -2,12 +2,11 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
 import { db } from './utils';
 import { v4 as uuidv4 } from 'uuid';
+import { DOMAIN_NAME } from '$env/static/private';
 
 export const POST: RequestHandler = async ({ request }) => {
-
     try {
         const { action, params } = await request.json();
-        
         switch(action) {
             case "insertURL": 
                 const { content } = params;
@@ -18,7 +17,7 @@ export const POST: RequestHandler = async ({ request }) => {
                 }).execute();
                 return json({
                     status: 200,
-                    message: uuid,
+                    url: `${DOMAIN_NAME}/${uuid}`,
                 });
             case "selectURL":
                 const { id } = params;
@@ -29,17 +28,6 @@ export const POST: RequestHandler = async ({ request }) => {
                     message: "Endpoint not found",
                 });
         }
-
-
-
-        // console.log(insert);
-        // const query = db.selectFrom("urls.markdown").selectAll();
-        // const data = await query.execute();
-        // console.log(data)
-        // const db = await pool.query("SELECT * FROM urls.markdown");
-        // const insert = await pool.query("INSERT INTO")
-        // console.log(db.rows)
-
     } catch (error) {
         console.error(error);
         return json({
@@ -47,22 +35,6 @@ export const POST: RequestHandler = async ({ request }) => {
             message: "Server Error"
         });
     }
-
-    console.log("post");
-    // console.log(params);
-
-    // switch (action) {
-    //     case "getGreeting": 
-    //         return json({
-    //             message: "greeting",
-    //             status: 200,
-    //         })
-    //     default: 
-    //         return json({
-    //             message: "default",
-    //             status: 404,
-    //         })
-    // }
 };
 
 export function GET() {

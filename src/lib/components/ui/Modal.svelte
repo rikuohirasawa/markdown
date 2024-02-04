@@ -14,12 +14,17 @@
 >
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div on:click|stopPropagation>
-		<!-- svelte-ignore a11y-autofocus -->
-		<button autofocus on:click={() => dialog.close()}>Close</button>
-
 		<slot name="header" />
 		<hr />
 		<slot />
+		<!-- svelte-ignore a11y-autofocus -->
+		<button 
+			autofocus 
+			on:click={() => dialog.close()}
+			class="close-btn"
+		>
+			Close
+		</button>
 		<!-- <hr /> -->
 	</div>
 </dialog>
@@ -31,7 +36,6 @@
 		border: none;
 		padding: 0;
 		position: fixed;
-		background: red;
 		top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
@@ -74,5 +78,6 @@
 	}
 	button {
 		display: block;
+		/* float: right; */
 	}
 </style>
