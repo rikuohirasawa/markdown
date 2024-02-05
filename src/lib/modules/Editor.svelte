@@ -32,7 +32,7 @@
                 body: JSON.stringify({ action, params })        
             });
             const data = await response.json();
-            shareableURL = data.url;
+            shareableURL = data.content;
             showModal = true;
             return;
             }

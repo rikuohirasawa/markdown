@@ -18,5 +18,7 @@
     :global(html, body) {
         height: 100%;
         width: 100%;
+        max-width: 100vw;
+        overflow: hidden;
   }
 </style>

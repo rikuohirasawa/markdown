@@ -12,16 +12,47 @@ export const POST: RequestHandler = async ({ request }) => {
                 const { content } = params;
                 const uuid = uuidv4();
                 await db.insertInto("urls.markdown").values({
-                    content,
                     uuid,
+                    content,
                 }).execute();
                 return json({
                     status: 200,
-                    url: `${DOMAIN_NAME}/${uuid}`,
+                    message: "Successfully saved work",
+                    content: `${DOMAIN_NAME}/${uuid}`,
                 });
-            case "selectURL":
-                const { id } = params;
-                await db.selectFrom("urls.markdown").select("uuid").where("uuid", "=", id)
+            case "insertReaction":
+                const { emoji, count, markdown_id } = params;
+                // check if reaction already exists - if so increment count - else insert new
+                const existingReaction = await db.selectFrom('urls.reactions')
+                    .selectAll()
+                    .where('emoji', '=', emoji)
+                    .where('markdown_id', '=', markdown_id)
+                    .executeTakeFirst();
+                if (existingReaction) {
+                    await db.updateTable('urls.reactions')
+                        .set({
+                            count: existingReaction.count + 1,
+                        })
+                        .where('emoji', '=', emoji)
+                        .where('markdown_id', '=', markdown_id)
+                        .execute();
+                } else {
+                    await db.insertInto("urls.reactions").values({
+                        emoji,
+                        count: 1,
+                        markdown_id,
+                    }).execute();
+                }
+                const reactionsList = await db.selectFrom("urls.reactions")
+                    .selectAll()
+                    .where("markdown_id", "=", markdown_id)
+                    .execute();
+                const sortedReactionsList = reactionsList.sort((a, b) => b.count - a.count);
+                return json({
+                    status: 200,
+                    message: "Successfully added reaction",
+                    content: sortedReactionsList,
+                });
             default: 
                 return json({
                     status: 404,

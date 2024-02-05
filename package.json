@@ -16,6 +16,7 @@
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@types/eslint": "8.56.0",
+		"@types/node": "^20.11.16",
 		"@types/pg": "^8.11.0",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
@@ -32,12 +33,19 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@emoji-mart/data": "^1.1.2",
+		"@joeattardi/emoji-button": "^4.6.4",
+		"@popperjs/core": "^2.11.8",
 		"@svelteuidev/composables": "^0.15.4",
 		"@svelteuidev/core": "^0.15.4",
 		"@types/uuid": "^9.0.8",
+		"emoji-mart": "^5.5.2",
+		"emoji-picker-element": "^1.21.0",
 		"kysely": "^0.27.2",
 		"marked": "^11.2.0",
 		"pg": "^8.11.3",
+		"svelte-emoji-picker": "^1.1.2",
+		"svelte-emoji-selector": "^1.0.1",
 		"svelte-french-toast": "^1.2.0",
 		"uuid": "^9.0.1"
 	}

@@ -21,15 +21,21 @@ export const pool = new Pool({
 });
 
 // kysely types
-
 export interface MarkdownTable {
-    id: Generated<number>,
+    uuid: string, // primary key
     content: string,
-    uuid: string,
+};
+
+export interface ReactionsTable {
+    id: Generated<number>,
+    emoji: string,
+    count: number,
+    markdown_id: string, // foreign key
 };
 
 export interface Database {
     "urls.markdown": MarkdownTable,
+    "urls.reactions": ReactionsTable,
 };
 
 const dialect = new PostgresDialect({
