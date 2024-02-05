@@ -4,23 +4,19 @@
     import { type Reaction } from '$lib/utils';
     export let markdownId: string;
     export let reactionsArray: Reaction[];
-    let EmojiPicker: any;
-    const defaultEmojis = ["😃", "😍", "👀", "🤮"];
+    let importEmojiPicker: any;
 
     const dispatch = createEventDispatcher();
-
-    let emojiPickerNode;
     
     onMount(() => {
       // Dynamically import the emoji picker to ensure it's client-side only
       import('emoji-picker-element')
         .then((module) => {
             console.log(module);
-            EmojiPicker = module.Picker;
+            importEmojiPicker = module.Picker;
         })
         .catch(console.error);
     });
-
 
     const handleClickEmoji = async (event: any) => {
         const emoji = event.detail.unicode;
@@ -43,7 +39,7 @@
     <button class="emoji-picker-toggle">+</button>
   </div>
   
-  {#if EmojiPicker}
+  {#if importEmojiPicker}
     <emoji-picker 
         on:emoji-click={handleClickEmoji}
         class="dark"
@@ -51,14 +47,13 @@
   {/if}
 
   <style>
+
     div {
         height: 20px;
         width: 100%;
-        border: 1px solid green;
     }
 
     emoji-picker {
-        /* border: 1px solid white; */
         border-radius: 2px;
         position: absolute;
         right: 0;
@@ -67,5 +62,6 @@
     .tooltip:not(.shown) {
           display: none;
       } */
+      
   </style>
   

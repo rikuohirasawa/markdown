@@ -8,13 +8,6 @@
     const { content, uuid, reactions } = data;
     
     let reactionsArray = reactions;
-
-    let pickedEmoji = "";
-
-    function onEmojiChange(event: any) {
-    pickedEmoji = event.detail.emoji;
-    }
-
 </script>
 
 <Editor 
@@ -35,9 +28,8 @@
     </div>
 </div>
 
-
-
 <style>
+
     .reactions-display-wrapper {
         position: absolute;
         top: 10%;
@@ -50,6 +42,6 @@
 
     .emoji-picker-wrapper {
         position: relative;
-        border: 1px solid red;
     }
+    
 </style>

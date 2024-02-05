@@ -3,17 +3,14 @@
     import { type Reaction, apiInstance } from "$lib/utils";
     
     export let reactions: Reaction[];
-    // reactions.sort((a, b) => b.count - a.count)
     const dispatch = createEventDispatcher();
 
-    console.log(reactions);
     const onClickReaction = async (reaction: Reaction) => {
         try {
             const response = await apiInstance("insertReaction", {
                 emoji: reaction.emoji,
                 markdown_id: reaction.markdown_id,
             });
-            console.log(response);
             dispatch("addReaction", {
                 content: response.content,
             });
@@ -33,7 +30,7 @@
 {/if}
 
 <style>
-    
+
     button {
         cursor: pointer;
         padding: 4px;

@@ -89,11 +89,10 @@
     }
     .input-footer {
         height: 100%;
-        border: 1px solid green;
     }
     .markdown-output {
         width: 50%;
-        border: 1px solid red;
         padding: 12px;
+        border-left: 1px solid;
     }
 </style>
