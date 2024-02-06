@@ -33,7 +33,6 @@
         | undefined>
         = async () => {
             try {
-                
                 return async (res: any) => {
                     console.log(res.result.data.content);
                     dispatch("addReaction", res.result.data.content);
