@@ -1,5 +1,6 @@
 <script lang="ts">
     import toast from "svelte-french-toast";
+    import type { SubmitFunction } from "@sveltejs/kit";
     import Modal from "$lib/components/ui/Modal.svelte";
     import MarkdownPreview from "./MarkdownPreview.svelte";
     import { enhance } from "$app/forms";
@@ -10,35 +11,29 @@
     let shareableURL = "";
     
     export let markdownContent = "";
-    export let form: HTMLFormElement;
+    let form: HTMLFormElement;
 
     // on homepage this will assign an empty string - which will be handled in the backend
     const uuid = $page.url.pathname.substring(1);
-    const formAction = async () => {
-        try {
-        return async ({ update, result } : { update: Function, result: ActionResultExtended }) => {
-            const status = result.status;
-            // if empty input
-            if (status === 422) {
-                return toast.error("Enter some text to share", {
+
+    const formSubmitHandler: SubmitFunction = () => {
+        return ({ result }) => {
+            if (result.status === 422) {
+                toast.error("Enter some markdown to share", {
                     position: "bottom-center",
                     icon: "🖥️"
                 });
-            };
-            // if updated
-            if (status === 204) {
-                return toast.success("Successfully saved your work", {
+            } else if (result.status === 204) {
+                toast.success("Successfully saved your work", {
                     position: "bottom-center",
                     icon: "💾"
-                })
-            };
-            shareableURL = result.data.content;
-            showModal = true;
-            await update();
-            markdownContent = "";
-        };
-        } catch (error) {
-            return toast.error("Failed to save your work");
+                });
+            } else {
+                const res = result as ActionResultExtended;
+                shareableURL = res.data.content;
+                showModal = true;
+                markdownContent = "";
+            }
         }
     };
 </script>
@@ -55,15 +50,13 @@
 
 <div class="flex-row">
     <form 
-        bind:this={form}
         method="POST" 
         action="/?/saveMarkdown" 
-        use:enhance={formAction}
+        use:enhance={formSubmitHandler}
     >
         <input type="hidden" name="uuid" value={uuid} />
         <textarea 
             name="content"
-            class=""
             placeholder="Enter code here"
             bind:value={markdownContent}
             />

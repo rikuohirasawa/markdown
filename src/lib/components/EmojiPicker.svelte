@@ -4,8 +4,9 @@
     import { page } from "$app/stores";
     import toast from "svelte-french-toast";
     import type { ActionResultExtended } from '$lib/utils';
+	import type { SubmitFunction } from '@sveltejs/kit';
     
-    export let form: HTMLFormElement;
+    let form: HTMLFormElement;
     let emojiElement: HTMLInputElement;
     let importEmojiPickerImported = false;
     const dispatch = createEventDispatcher();
@@ -25,19 +26,19 @@
         form.requestSubmit();
     };
 
-    const formAction = async () => {
-            try {
-                return async ({ result }: { result: ActionResultExtended }) => {
-                    dispatch("addReaction", result.data.content);
-                };
-            } catch (error) {
-                return toast.error("Failed to add reaction", {
-                    position: "bottom-center",
-                    icon: "😔"
-                }); 
-            }
-        };
-  
+    const formSubmitHandler: SubmitFunction = () => {
+        try {
+            return ({ result }) => {
+                const res = result as ActionResultExtended;
+                dispatch("addReaction", res.data.content);
+            };
+        } catch (error) {
+            toast.error("Failed to add reaction", {
+                position: "bottom-center",
+                icon: "😔"
+            }); 
+        }
+    };
   </script>
 
   <div>
@@ -49,14 +50,11 @@
         bind:this={form}
         method="POST" 
         action="?/addReaction"
-        use:enhance={formAction}
+        use:enhance={formSubmitHandler}
     >
-        <input type="hidden" name="content" bind:this={emojiElement}/>
+        <input type="hidden" name="content" bind:this={emojiElement} />
         <input type="hidden" name="uuid" value={$page.url.pathname.substring(1)} />
-        <emoji-picker 
-            on:emoji-click={handleClickEmoji}
-            class="dark"
-        />
+        <emoji-picker on:emoji-click={handleClickEmoji} class="dark" />
     </form>
   {/if}
 

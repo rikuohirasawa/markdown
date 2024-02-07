@@ -5,24 +5,15 @@
     import ReactionsDisplay from "$lib/components/ReactionsDisplay.svelte";
     export let data: {  uuid: string, content: string, reactions: Reaction[] };
     const { content, reactions } = data;
-    export let form: any;
     
     let reactionsArray = reactions;
 </script>
 
-<Editor 
-    form={form}
-    markdownContent={content}
-/>
+<Editor markdownContent={content} />
 <div class="reactions-display-wrapper">
-    <ReactionsDisplay 
-        reactions={reactionsArray}
-        on:addReaction={((event) => reactionsArray = event.detail)}
-    />
+    <ReactionsDisplay reactions={reactionsArray} on:addReaction={((event) => reactionsArray = event.detail)}/>
     <div class="emoji-picker-wrapper">
-        <EmojiPicker 
-        on:addReaction={((event)=> reactionsArray = event.detail)}
-    />
+        <EmojiPicker on:addReaction={((event) => reactionsArray = event.detail)} />
     </div>
 </div>
 

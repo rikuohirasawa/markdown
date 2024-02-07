@@ -1,5 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
+    import type { SubmitFunction } from "@sveltejs/kit";
 	import { enhance } from '$app/forms';
     import { page } from "$app/stores";
     import toast from "svelte-french-toast";
@@ -7,23 +8,25 @@
     
     export let reactions: Reaction[];
     const dispatch = createEventDispatcher();
-    const formAction = async () => {
-            try {   
-                return async ({ result } : { result: ActionResultExtended }) => {
-                    dispatch("addReaction", result.data.content);
-                }
-            } catch (error) {
-                toast.error("Failed to add reaction", {
-                    position: "bottom-center",
-                    icon: "😔"
-                }); 
+
+    const formSubmitHandler: SubmitFunction = () => {
+        try {
+            return ({ result }) => {
+                const res = result as ActionResultExtended;
+                dispatch("addReaction", res.data.content);
             }
-        };
+        } catch (error) {
+            toast.error("Failed to add reaction", {
+                position: "bottom-center",
+                icon: "😔"
+            });
+        }
+    };
 </script>
     
 {#if reactions.length > 0} 
     {#each reactions as reaction (reaction.id)}
-        <form method="POST" action="?/addReaction" use:enhance={formAction} on:submit|once>
+        <form method="POST" action="?/addReaction" use:enhance={formSubmitHandler} on:submit|once>
             <input type="hidden" name="content" bind:value={reaction.emoji}/>
             <input type="hidden" name="uuid" value={$page.url.pathname.substring(1)} />
             <button class="reaction" type="submit" on:click|once>
