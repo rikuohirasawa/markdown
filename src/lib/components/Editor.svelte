@@ -4,6 +4,7 @@
     import MarkdownPreview from "./MarkdownPreview.svelte";
     import { enhance } from "$app/forms";
     import { page } from "$app/stores";
+    import type { ActionResultExtended } from "$lib/utils";
 
     let showModal = false;
     let shareableURL = "";
@@ -13,11 +14,10 @@
 
     // on homepage this will assign an empty string - which will be handled in the backend
     const uuid = $page.url.pathname.substring(1);
-
     const formAction = async () => {
         try {
-        return async (res: any) => {
-            const status = res.result.status;
+        return async ({ update, result } : { update: Function, result: ActionResultExtended }) => {
+            const status = result.status;
             // if empty input
             if (status === 422) {
                 return toast.error("Enter some text to share", {
@@ -32,10 +32,10 @@
                     icon: "💾"
                 })
             };
-            const { update } = res;
-            shareableURL = res.result.data.content;
+            shareableURL = result.data.content;
             showModal = true;
             await update();
+            markdownContent = "";
         };
         } catch (error) {
             return toast.error("Failed to save your work");
@@ -73,6 +73,7 @@
 </div>
 
 <style>
+    
     .flex-row {
         display: flex;
     }

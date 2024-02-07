@@ -1,12 +1,10 @@
 <script lang="ts">
     import { onMount, createEventDispatcher } from 'svelte';
-    import { type Reaction } from '$lib/utils';
 	import { enhance } from '$app/forms';
-	import type { SubmitFunction } from '@sveltejs/kit';
     import { page } from "$app/stores";
-
-    export let markdownId: string;
-    export let reactionsArray: Reaction[];
+    import toast from "svelte-french-toast";
+    import type { ActionResultExtended } from '$lib/utils';
+    
     export let form: HTMLFormElement;
     let emojiElement: HTMLInputElement;
     let importEmojiPickerImported = false;
@@ -20,25 +18,23 @@
         })
         .catch(console.error);
     });
-
+    
     const handleClickEmoji = async (event: any) => {
         // using browser native api here to avoid race condition
         emojiElement.value = event.detail.unicode;
         form.requestSubmit();
     };
 
-    const formAction:
-        SubmitFunction<Record<string, unknown> 
-        | undefined, Record<string, unknown> 
-        | undefined>
-        = async () => {
+    const formAction = async () => {
             try {
-                return async (res: any) => {
-                    console.log(res.result.data.content);
-                    dispatch("addReaction", res.result.data.content);
-                }
+                return async ({ result }: { result: ActionResultExtended }) => {
+                    dispatch("addReaction", result.data.content);
+                };
             } catch (error) {
-
+                return toast.error("Failed to add reaction", {
+                    position: "bottom-center",
+                    icon: "😔"
+                }); 
             }
         };
   
@@ -62,7 +58,6 @@
             class="dark"
         />
     </form>
-
   {/if}
 
   <style>

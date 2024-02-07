@@ -49,14 +49,6 @@
 	dialog[open] {
 		animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 	}
-	/* @keyframes zoom {
-		from {
-			transform: scale(0.95);
-		}
-		to {
-			transform: scale(1);
-		}
-	} */
 	@keyframes zoom {
         from {
             transform: scale(0.95) translate(-50%, -50%);
@@ -78,6 +70,5 @@
 	}
 	button {
 		display: block;
-		/* float: right; */
 	}
 </style>

@@ -3,7 +3,6 @@
     export let markdown = "";
 
     $: compiledMarkdown = marked(markdown);
-
 </script>
 
 <div>{@html compiledMarkdown}</div>

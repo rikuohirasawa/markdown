@@ -4,7 +4,7 @@
     import { type Reaction } from "$lib/utils";
     import ReactionsDisplay from "$lib/components/ReactionsDisplay.svelte";
     export let data: {  uuid: string, content: string, reactions: Reaction[] };
-    const { content, uuid, reactions } = data;
+    const { content, reactions } = data;
     export let form: any;
     
     let reactionsArray = reactions;
@@ -13,7 +13,6 @@
 <Editor 
     form={form}
     markdownContent={content}
-    isSaved={true}
 />
 <div class="reactions-display-wrapper">
     <ReactionsDisplay 
@@ -22,8 +21,6 @@
     />
     <div class="emoji-picker-wrapper">
         <EmojiPicker 
-        reactionsArray={reactionsArray}
-        markdownId={uuid}
         on:addReaction={((event)=> reactionsArray = event.detail)}
     />
     </div>

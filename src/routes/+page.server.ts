@@ -1,20 +1,12 @@
-import { json } from '@sveltejs/kit';
-import type { RequestHandler, Load, Actions } from '@sveltejs/kit';
+import { json, fail, type Actions } from '@sveltejs/kit';
 import { db } from './api/utils';
 import { v4 as uuidv4 } from 'uuid';
-import { DOMAIN_NAME } from '$env/static/private';
-import type { RequestEvent } from './api/$types';
-import { fail } from '@sveltejs/kit';
-
-export const load: Load = () => {
-    const data = {load: true}
-    return data;
-};
+import { DOMAIN_NAME, NODE_ENV } from '$env/static/private';
 
 const noContentErrorMessage = "No content";
 
 export const actions = {
-    saveMarkdown: async ({ request }: RequestEvent) => {
+    saveMarkdown: async ({ request }) => {
         try {
             const data = await request.formData();
             const content = data.get("content") as string;
@@ -38,13 +30,15 @@ export const actions = {
                 }).execute();
                 return { content: `${DOMAIN_NAME}/${uuid}` };
             }
-        } catch (error: any) {
-            if (error.message === noContentErrorMessage) {
+        } catch (error) {
+            const errorMsg = (error as Error).message;
+            if (errorMsg === noContentErrorMessage) {
                 return fail(422, {
                     description: "Failed",
                     content: noContentErrorMessage,
                 })
             }
+            NODE_ENV === "development" && console.error(error);
         }
     },
-};
+} satisfies Actions;

@@ -1,6 +1,6 @@
-import { error, type Load } from '@sveltejs/kit';
+import { error, type Load, type Actions } from '@sveltejs/kit';
 import { db } from '../api/utils';
-import type { RequestEvent } from './$types';
+import { NODE_ENV } from '$env/static/private';
 
 export const ssr = true;
 
@@ -22,7 +22,7 @@ export const load: Load = async ({ params }) => {
 };
 
 export const actions = {
-    addReaction: async ( { request } : RequestEvent ) => {
+    addReaction: async ( { request } ) => {
         try {
             // check if reaction already exists - if so increment count - else insert new
             const data = await request.formData();
@@ -56,7 +56,7 @@ export const actions = {
             const sortedReactionsList = reactionsList.sort((a, b) => b.count - a.count);
             return { content: sortedReactionsList}
         } catch (error) {   
-            console.log(error);
+            NODE_ENV === "development" && console.error(error);
         }
     }
-}
+} satisfies Actions;
