@@ -1,23 +1,22 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
-    import type { SubmitFunction } from '@sveltejs/kit';
 	import { enhance } from '$app/forms';
     import { page } from "$app/stores";
-    import { type Reaction } from "$lib/utils";
+    import toast from "svelte-french-toast";
+    import { type Reaction, type ActionResultExtended } from "$lib/utils";
     
     export let reactions: Reaction[];
     const dispatch = createEventDispatcher();
-    const formAction:
-        SubmitFunction<Record<string, unknown> 
-        | undefined, Record<string, unknown> 
-        | undefined>
-        = async () => {
+    const formAction = async () => {
             try {   
-                return async (res: any) => {
-                    dispatch("addReaction", res.result.data.content);
+                return async ({ result } : { result: ActionResultExtended }) => {
+                    dispatch("addReaction", result.data.content);
                 }
             } catch (error) {
-
+                toast.error("Failed to add reaction", {
+                    position: "bottom-center",
+                    icon: "😔"
+                }); 
             }
         };
 </script>
