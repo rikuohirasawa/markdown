@@ -6,6 +6,7 @@
     import type { ActionResultExtended } from "$lib/utils";
     import Modal from "$lib/components/ui/Modal.svelte";
     import MarkdownPreview from "./MarkdownPreview.svelte";
+    import Icon from "@iconify/svelte"
 
     let showModal = false;
     let shareableURL = "";
@@ -19,12 +20,12 @@
         return ({ result }) => {
             if (result.status === 422) {
                 toast.error("Enter some markdown to share", {
-                    position: "bottom-center",
+                    position: "top-center",
                     icon: "🖥️"
                 });
             } else if (result.status === 200) {
                 toast.success("Successfully saved your work", {
-                    position: "bottom-center",
+                    position: "top-center",
                     icon: "💾"
                 });
             } else if (result.status === 302) {
@@ -35,6 +36,7 @@
             }
         }
     };
+  
 </script>
 
 <Modal bind:showModal>
@@ -42,8 +44,15 @@
         <h2>Work Saved</h2>
         <div><small>Use the link below to share your work</small></div>
 	</div>
-    <div>Your shareable link:</div>
-    <a href={shareableURL} target="_blank">{shareableURL}</a>
+    <div class="url-wrapper">
+        <a href={shareableURL} target="_blank">{shareableURL}</a>
+        <button on:click={()=>{
+            navigator.clipboard.writeText(shareableURL);
+            toast.success("Copied to clipboard", {
+                    position: "top-center",
+                });
+        }}><Icon icon="solar:copy-line-duotone" width="16" color="white"/></button>
+    </div>
     <div>Make sure to save your link somewhere safe - as this is the only time you will have access to it</div>
 </Modal>
 
@@ -54,29 +63,103 @@
         use:enhance={formSubmitHandler}
     >
         <input type="hidden" name="uuid" value={uuid} />
-        <textarea 
-            name="content"
-            placeholder="Enter code here"
-            bind:value={markdownContent}
-            />
-        <button type="submit">{uuid ? "Save your work" : "Share your work"}</button>
+        <div class="flex-col">
+            <textarea 
+                name="content"
+                placeholder="Enter markdown here"
+                bind:value={markdownContent}
+                />
+            <div class="form-footer">
+                <button type="submit">{uuid ? "Save your work" : "Share your work"}</button>
+            </div>
+        </div>
     </form>
     <MarkdownPreview markdown={markdownContent}/>
 </div>
 
+
 <style>
-    
+
+    /* modal styles */
+    .url-wrapper {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        align-items: center;
+        padding: 1rem;
+        background: var(--bg-dark-subtle);
+        border-radius: 6px;
+    }
+    .url-wrapper a {
+        color: inherit;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding: 8px;
+    }
+
+    .url-wrapper button {
+        padding: 10px;
+        border-radius: 4px;
+        background: var(--bg-dark);
+        outline: none;
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
+    ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+        border-radius: 12px;
+
+    }
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1; 
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #888; 
+        border-radius: 12px;
+        height: 2px;
+    }
     .flex-row {
         display: flex;
     }
     form {
         width: 50%;
-        height: 100vh;
+    }
+    .flex-col {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
     }
     textarea {
         width: 100%;
-        height: 90%;
+        flex-grow: 1;
         padding: 12px;
+        background: var(--bg-dark);
+        color: var(--text-light);
+        resize: none;
+        overflow-y: auto;
+        border: none;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .form-footer {
+        border-top: 1px solid var(--white-soft);
+        background: var(--bg-dark);
+        height: fit-content;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+    }
+    button {
+        padding: 10px 25px;
     }
     
 </style>

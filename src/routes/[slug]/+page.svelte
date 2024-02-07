@@ -21,10 +21,9 @@
 
     .reactions-display-wrapper {
         position: absolute;
-        top: 10%;
-        right: 0;
+        bottom: 0%;
+        left: 50%;
         display: flex;
-        flex-direction: column;
         max-width: 8vw;
         border: 1px solid;
     }

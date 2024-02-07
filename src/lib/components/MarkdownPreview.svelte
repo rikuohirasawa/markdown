@@ -13,7 +13,8 @@
         height: 100vh;
         width: 50%;
         padding: 12px;
-        border-left: 1px solid;
+        overflow-y: auto;
+        background: var(--bg-dark-subtle);
     }
 
 </style>

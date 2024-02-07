@@ -1,5 +1,8 @@
 <script lang="ts">
     import { onMount, createEventDispatcher } from 'svelte';
+    import { createPopover, melt } from '@melt-ui/svelte';
+    import { fade } from 'svelte/transition';
+
 	import { enhance } from '$app/forms';
     import { page } from "$app/stores";
     import toast from "svelte-french-toast";
@@ -34,19 +37,29 @@
             };
         } catch (error) {
             toast.error("Failed to add reaction", {
-                position: "bottom-center",
+                position: "top-center",
                 icon: "😔"
             }); 
         }
     };
+
+    const { 
+        elements: { trigger, content, arrow, close },
+        states: { open },
+    } = createPopover({
+        forceVisible: true,
+    });
   </script>
 
   <div>
-    <button class="emoji-picker-toggle">+</button>
+    <button class="emoji-picker-toggle"
+    use:melt={$trigger}>+</button>
   </div>
   
-  {#if importEmojiPickerImported}
+  {#if importEmojiPickerImported && $open}
     <form 
+        use:melt={$content}
+        transition:fade={{ duration: 100 }}
         bind:this={form}
         method="POST" 
         action="?/addReaction"
@@ -60,15 +73,20 @@
 
   <style>
 
+    form {
+        position: absolute;
+        top: 0%;
+        right: 100%;
+    }
+
     div {
         height: 20px;
         width: 100%;
     }
 
     emoji-picker {
-        border-radius: 2px;
-        position: absolute;
-        right: 0;
+        border-radius: 8px;
+        top: 0;
     }
 
   </style>

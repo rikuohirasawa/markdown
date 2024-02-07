@@ -35,10 +35,18 @@
 		border-radius: 0.2em;
 		border: none;
 		padding: 0;
+		margin: 0;
 		position: fixed;
-		top: 50%;
-        left: 50%;
+		top: 50vh;
+		left: 50vw;
         transform: translate(-50%, -50%);
+		background: var(--bg-dark);
+		color: var(--text-light);
+	}
+	hr {
+		border: none;
+		border-top: 1px solid var(--white-med);
+	
 	}
 	dialog::backdrop {
 		background: rgba(0, 0, 0, 0.3);
@@ -67,8 +75,5 @@
 		to {
 			opacity: 1;
 		}
-	}
-	button {
-		display: block;
 	}
 </style>

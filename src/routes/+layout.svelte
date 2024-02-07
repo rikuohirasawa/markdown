@@ -1,15 +1,16 @@
 <script>
     import { SvelteUIProvider } from '@svelteuidev/core';
     import { Toaster } from 'svelte-french-toast'
+    import "../style/app.css"
 </script>
 
 <Toaster/>
-<SvelteUIProvider withNormalizeCSS withGlobalStyles themeObserver="dark">
+<!-- <SvelteUIProvider withNormalizeCSS withGlobalStyles themeObserver="dark"> -->
     <slot/>
-</SvelteUIProvider>
+<!-- </SvelteUIProvider> -->
 
 <style>
-    :global(*) {
+    /* :global(*) {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
@@ -19,5 +20,5 @@
         width: 100%;
         max-width: 100vw;
         overflow: hidden;
-  }
+  } */
 </style>

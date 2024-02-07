@@ -17,7 +17,7 @@
             };
         } catch (error) {
             toast.error("Failed to add reaction", {
-                position: "bottom-center",
+                position: "top-center",
                 icon: "😔"
             });
         }
@@ -25,20 +25,26 @@
 </script>
     
 {#if reactions.length > 0} 
-    {#each reactions as reaction (reaction.id)}
-        <form method="POST" action="?/addReaction" use:enhance={formSubmitHandler}>
-            <input type="hidden" name="content" bind:value={reaction.emoji}/>
-            <input type="hidden" name="uuid" value={$page.url.pathname.substring(1)} />
-            <button class="reaction" type="submit">
-                <span class="emoji">{reaction.emoji.trimEnd()}</span>
-                <span>{reaction.count}</span>
-            </button>
-        </form>
-    {/each}
+    <div class="reactions-wrapper">
+        {#each reactions as reaction (reaction.id)}
+            <form method="POST" action="?/addReaction" use:enhance={formSubmitHandler}>
+                <input type="hidden" name="content" bind:value={reaction.emoji}/>
+                <input type="hidden" name="uuid" value={$page.url.pathname.substring(1)} />
+                <button class="reaction" type="submit">
+                    <span class="emoji">{reaction.emoji.trimEnd()}</span>
+                    <span>{reaction.count}</span>
+                </button>
+            </form>
+        {/each}
+    </div>
 {/if}
 
 <style>
 
+    .reactions-wrapper {
+        display: flex;
+
+    }
     button {
         cursor: pointer;
         padding: 4px;
