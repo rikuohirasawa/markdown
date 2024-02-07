@@ -14,7 +14,7 @@
             return ({ result }) => {
                 const res = result as ActionResultExtended;
                 dispatch("addReaction", res.data.content);
-            }
+            };
         } catch (error) {
             toast.error("Failed to add reaction", {
                 position: "bottom-center",
@@ -26,10 +26,10 @@
     
 {#if reactions.length > 0} 
     {#each reactions as reaction (reaction.id)}
-        <form method="POST" action="?/addReaction" use:enhance={formSubmitHandler} on:submit|once>
+        <form method="POST" action="?/addReaction" use:enhance={formSubmitHandler}>
             <input type="hidden" name="content" bind:value={reaction.emoji}/>
             <input type="hidden" name="uuid" value={$page.url.pathname.substring(1)} />
-            <button class="reaction" type="submit" on:click|once>
+            <button class="reaction" type="submit">
                 <span class="emoji">{reaction.emoji.trimEnd()}</span>
                 <span>{reaction.count}</span>
             </button>

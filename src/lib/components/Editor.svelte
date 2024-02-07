@@ -11,7 +11,6 @@
     let shareableURL = "";
     
     export let markdownContent = "";
-    let form: HTMLFormElement;
 
     // on homepage this will assign an empty string - which will be handled in the backend
     const uuid = $page.url.pathname.substring(1);
@@ -23,14 +22,14 @@
                     position: "bottom-center",
                     icon: "🖥️"
                 });
-            } else if (result.status === 204) {
+            } else if (result.status === 200) {
                 toast.success("Successfully saved your work", {
                     position: "bottom-center",
                     icon: "💾"
                 });
-            } else {
+            } else if (result.status === 302) {
                 const res = result as ActionResultExtended;
-                shareableURL = res.data.content;
+                shareableURL = res.location || $page.url.origin;
                 showModal = true;
                 markdownContent = "";
             }

@@ -7,4 +7,8 @@ export interface Reaction {
     markdown_id: string,
 };
 
-export type ActionResultExtended = ActionResult & { data: { content: string }};
+export type ActionResultExtended = ActionResult & 
+    { 
+    data: { content: string }, 
+    location? : string
+    };
