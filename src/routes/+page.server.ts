@@ -23,7 +23,7 @@ export const actions = {
                     .set({ content })
                     .where("uuid", "=", markdownId)
                     .execute();
-                return ({status: 204});
+                return { content: "Update success" };
             } else {
                 const uuid = uuidv4();
                 await db.insertInto("urls.markdown").values({

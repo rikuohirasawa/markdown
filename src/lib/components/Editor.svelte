@@ -1,11 +1,11 @@
 <script lang="ts">
     import toast from "svelte-french-toast";
     import type { SubmitFunction } from "@sveltejs/kit";
-    import Modal from "$lib/components/ui/Modal.svelte";
-    import MarkdownPreview from "./MarkdownPreview.svelte";
     import { enhance } from "$app/forms";
     import { page } from "$app/stores";
     import type { ActionResultExtended } from "$lib/utils";
+    import Modal from "$lib/components/ui/Modal.svelte";
+    import MarkdownPreview from "./MarkdownPreview.svelte";
 
     let showModal = false;
     let shareableURL = "";
