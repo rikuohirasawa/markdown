@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount, createEventDispatcher } from 'svelte';
-    import { createPopover, melt } from '@melt-ui/svelte';
+    import { createPopover, createTooltip, melt } from '@melt-ui/svelte';
     import { fade } from 'svelte/transition';
     import Icon from "@iconify/svelte"
 
@@ -50,11 +50,32 @@
     } = createPopover({
         forceVisible: true,
     });
+
+    // tooltip triggers - prefixed by tt
+      const {
+            elements: { trigger: ttTrigger, content: ttContent, arrow: ttArrow },
+            states: { open: ttOpen },
+        } = createTooltip({
+            positioning: {
+                placement: 'left',
+            },
+            openDelay: 0,
+            closeDelay: 0,
+            closeOnPointerDown: false,
+            forceVisible: true,
+        });
+
   </script>
 
-    <button class="emoji-picker-toggle" use:melt={$trigger}>
+    <button class="emoji-picker-toggle" use:melt={$trigger} use:melt={$ttTrigger}>
         <Icon icon="mdi:add-bold" width="16"/>
     </button>
+    {#if $ttOpen}
+        <div class="tooltip" use:melt={$ttContent} transition:fade={{duration: 100}}>
+            <div use:melt={$ttArrow}/>
+            <div>Add reaction</div>
+        </div>
+    {/if}
   
   {#if importEmojiPickerImported && $open}
     <form 
@@ -76,10 +97,17 @@
     button {
         padding: 4px 8px;
         height: 30px;
-        margin: 0;
         background: var(--bg-dark);
         color: var(--text-light);
         border-radius: 4px;
+    }
+
+    .tooltip {
+        width: fit-content;
+        background: var(--bg-dark);
+        font-size: 12px;
+        padding: 8px;
+        border-radius: 2px;
     }
 
     form {
