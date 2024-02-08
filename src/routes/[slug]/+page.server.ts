@@ -1,5 +1,5 @@
 import { error, type Load, type Actions } from '@sveltejs/kit';
-import { db } from '../api/utils';
+import { db } from '../db/utils';
 import { NODE_ENV } from '$env/static/private';
 
 export const ssr = true;

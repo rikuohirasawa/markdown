@@ -43,19 +43,23 @@
 
     .reactions-wrapper {
         display: flex;
-
+        justify-content: center;
+        gap: 10px;
     }
     button {
-        cursor: pointer;
-        padding: 4px;
+        padding: 4px 8px;
         display: flex;
         align-items: center;
         gap: 8px;
-        margin: 0;
+        border-radius: 4px;
+        height: 30px; 
+        font-weight: 200;
+        background: var(--bg-dark);
+        color: var(--text-light);
     }
 
     .emoji {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
     }
     
 </style>

@@ -2,6 +2,7 @@
     import { onMount, createEventDispatcher } from 'svelte';
     import { createPopover, melt } from '@melt-ui/svelte';
     import { fade } from 'svelte/transition';
+    import Icon from "@iconify/svelte"
 
 	import { enhance } from '$app/forms';
     import { page } from "$app/stores";
@@ -51,10 +52,9 @@
     });
   </script>
 
-  <div>
-    <button class="emoji-picker-toggle"
-    use:melt={$trigger}>+</button>
-  </div>
+    <button class="emoji-picker-toggle" use:melt={$trigger}>
+        <Icon icon="mdi:add-bold" width="16"/>
+    </button>
   
   {#if importEmojiPickerImported && $open}
     <form 
@@ -73,15 +73,19 @@
 
   <style>
 
+    button {
+        padding: 4px 8px;
+        height: 30px;
+        margin: 0;
+        background: var(--bg-dark);
+        color: var(--text-light);
+        border-radius: 4px;
+    }
+
     form {
         position: absolute;
         top: 0%;
         right: 100%;
-    }
-
-    div {
-        height: 20px;
-        width: 100%;
     }
 
     emoji-picker {

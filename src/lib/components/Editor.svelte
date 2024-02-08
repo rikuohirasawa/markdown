@@ -1,12 +1,13 @@
 <script lang="ts">
     import toast from "svelte-french-toast";
     import type { SubmitFunction } from "@sveltejs/kit";
+    import Icon from "@iconify/svelte"
     import { enhance } from "$app/forms";
     import { page } from "$app/stores";
     import type { ActionResultExtended } from "$lib/utils";
     import Modal from "$lib/components/ui/Modal.svelte";
     import MarkdownPreview from "./MarkdownPreview.svelte";
-    import Icon from "@iconify/svelte"
+    import ShareButton from "./ShareButton.svelte";
 
     let showModal = false;
     let shareableURL = "";
@@ -70,7 +71,7 @@
                 bind:value={markdownContent}
                 />
             <div class="form-footer">
-                <button type="submit">{uuid ? "Save your work" : "Share your work"}</button>
+                <ShareButton {uuid} />
             </div>
         </div>
     </form>
@@ -157,6 +158,7 @@
         display: flex;
         align-items: flex-end;
         justify-content: flex-end;
+        max-height: 40px;
     }
     button {
         padding: 10px 25px;

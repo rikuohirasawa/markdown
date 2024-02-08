@@ -7,6 +7,8 @@
     --text-light: #edf2f7;
     --white-soft: rgba(255, 255, 255, 0.2);
     --white-med: rgba(255, 255, 255, 0.4);
+    --grey-soft: #495661;
+    --accent-green: #4fd1c5;
 }
 html, body {
     height: 100%;
@@ -30,4 +32,14 @@ html, body {
 ::-webkit-scrollbar-thumb {
     background: #888; 
     border-radius: 12px;
+}
+
+button {
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.8;
+    }
 }

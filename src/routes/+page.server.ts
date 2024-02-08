@@ -1,5 +1,5 @@
 import { fail, type Actions, redirect } from '@sveltejs/kit';
-import { db } from './api/utils';
+import { db } from './db/utils';
 import { v4 as uuidv4 } from 'uuid';
 import { DOMAIN_NAME } from '$env/static/private';
 

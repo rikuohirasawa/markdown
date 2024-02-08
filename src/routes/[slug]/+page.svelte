@@ -11,25 +11,29 @@
 
 <Editor markdownContent={content} />
 <div class="reactions-display-wrapper">
-    <ReactionsDisplay reactions={reactionsArray} on:addReaction={((event) => reactionsArray = event.detail)}/>
     <div class="emoji-picker-wrapper">
         <EmojiPicker on:addReaction={((event) => reactionsArray = event.detail)} />
     </div>
+    <ReactionsDisplay reactions={reactionsArray} on:addReaction={((event) => reactionsArray = event.detail)}/>
 </div>
 
 <style>
 
     .reactions-display-wrapper {
-        position: absolute;
-        bottom: 0%;
+        position: fixed;
+        bottom: 1%;
         left: 50%;
         display: flex;
-        max-width: 8vw;
-        border: 1px solid;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        width: 50%;
     }
 
     .emoji-picker-wrapper {
         position: relative;
+        display: flex;
+        align-items: center;
     }
 
 </style>
