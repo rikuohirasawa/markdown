@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Icon from "@iconify/svelte"
+
 	export let showModal: boolean;
 
 	let dialog: HTMLDialogElement;
@@ -23,7 +25,7 @@
 			on:click={() => dialog.close()}
 			class="close-btn"
 		>
-			Close
+			<Icon icon="material-symbols:close" width="18" color="var(--text-light)"/>
 		</button>
 		<!-- <hr /> -->
 	</div>
@@ -53,6 +55,7 @@
 	}
 	dialog > div {
 		padding: 1em;
+		position: relative;
 	}
 	dialog[open] {
 		animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -75,5 +78,18 @@
 		to {
 			opacity: 1;
 		}
+	}
+	
+	button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 30px;
+		width: 30px;
+		border-radius: 50%;
+		background: var(--bg-dark-subtle);
+		position: fixed;
+		top: 5%;
+		right: 2%;
 	}
 </style>

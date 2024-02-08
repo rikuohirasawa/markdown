@@ -43,18 +43,21 @@
 <Modal bind:showModal>
 	<div slot="header">
         <h2>Work Saved</h2>
-        <div><small>Use the link below to share your work</small></div>
+        <p class="text-light">Use the link below to share your work</p>
 	</div>
     <div class="url-wrapper">
         <a href={shareableURL} target="_blank">{shareableURL}</a>
-        <button on:click={()=>{
-            navigator.clipboard.writeText(shareableURL);
-            toast.success("Copied to clipboard", {
-                    position: "top-center",
-                });
-        }}><Icon icon="solar:copy-line-duotone" width="16" color="white"/></button>
+        <button 
+            class="clipboard-button"
+            on:click={()=>{
+                navigator.clipboard.writeText(shareableURL);
+                toast.success("Copied to clipboard", { position: "top-center" });
+            }}
+        >
+            <Icon icon="solar:copy-line-duotone" width="20" color="var(--bg-dark)"/>
+        </button>
     </div>
-    <div>Make sure to save your link somewhere safe - as this is the only time you will have access to it</div>
+    <p class="text-light">Make sure to save your link somewhere safe - as this is the only time you will have access to it</p>
 </Modal>
 
 <div class="flex-row">
@@ -66,6 +69,7 @@
         <input type="hidden" name="uuid" value={uuid} />
         <div class="flex-col">
             <textarea 
+                autofocus
                 name="content"
                 placeholder="Enter markdown here"
                 bind:value={markdownContent}
@@ -82,6 +86,10 @@
 <style>
 
     /* modal styles */
+
+    .text-light {
+        font-weight: 200;
+    }
     .url-wrapper {
         display: flex;
         justify-content: center;
@@ -101,7 +109,7 @@
     .url-wrapper button {
         padding: 10px;
         border-radius: 4px;
-        background: var(--bg-dark);
+        background: var(--accent-green);
         outline: none;
         border: none;
         cursor: pointer;
@@ -145,6 +153,7 @@
         resize: none;
         overflow-y: auto;
         border: none;
+        letter-spacing: 1px;
 
         &:focus {
             outline: none;
@@ -159,9 +168,6 @@
         align-items: flex-end;
         justify-content: flex-end;
         max-height: 40px;
-    }
-    button {
-        padding: 10px 25px;
     }
     
 </style>

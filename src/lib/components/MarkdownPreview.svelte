@@ -1,8 +1,14 @@
 <script lang="ts">
     import { marked } from "marked";
+    import DOMPurify from "isomorphic-dompurify";
     export let markdown = "";
-
-    $: compiledMarkdown = marked(markdown);
+    $: compiledMarkdown = "";
+    $: if (markdown) {
+        (async () => {
+            const parsed = await marked.parse(markdown);
+            compiledMarkdown = DOMPurify.sanitize(parsed);
+        })();
+    };
 </script>
 
 <div>{@html compiledMarkdown}</div>
