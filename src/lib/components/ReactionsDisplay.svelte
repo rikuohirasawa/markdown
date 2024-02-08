@@ -26,7 +26,7 @@
     
 {#if reactions.length > 0} 
     <div class="reactions-wrapper">
-        {#each reactions as reaction (reaction.id)}
+        {#each reactions as reaction (reaction.emoji)}
             <form method="POST" action="?/addReaction" use:enhance={formSubmitHandler}>
                 <input type="hidden" name="content" bind:value={reaction.emoji}/>
                 <input type="hidden" name="uuid" value={$page.url.pathname.substring(1)} />
