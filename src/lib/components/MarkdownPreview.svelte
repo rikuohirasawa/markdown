@@ -20,7 +20,7 @@
         width: 50%;
         padding: 12px;
         overflow-y: auto;
-        background: var(--bg-dark-subtle);
+        background: var(--bg-secondary);
     }
 
 </style>

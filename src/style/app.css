@@ -2,8 +2,8 @@
     box-sizing: border-box;
 }
 :root {
-    --bg-dark: #1A202C;
-    --bg-dark-subtle: #2D3748;
+    --bg-primary: #1A202C;
+    --bg-secondary: #2D3748;
     --text-light: #edf2f7;
     --white-soft: rgba(255, 255, 255, 0.2);
     --white-med: rgba(255, 255, 255, 0.4);
@@ -19,8 +19,18 @@ html, body {
     margin: 0;
     padding: 0;
     font-family: "Inter", sans-serif;
-    background: var(--bg-dark);
+    background: var(--bg-primary);
     color: var(--text-light);
+}
+
+body.light {
+    --bg-primary: #f1f1f1;
+    --bg-secondary: #e2e8f0;
+    --text-light: #1A202C;
+    --white-soft: rgba(0, 0, 0, 0.2);
+    --white-med: rgba(0, 0, 0, 0.4);
+    --grey-soft: #495661;
+    --accent-green: #4fd1c5;
 }
 
 ::-webkit-scrollbar {
@@ -38,6 +48,8 @@ button {
     font-weight: 700;
     border: none;
     cursor: pointer;
+    border-radius: 4px;
+
 
     &:hover {
         opacity: 0.8;

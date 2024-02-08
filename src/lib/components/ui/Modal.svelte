@@ -42,7 +42,7 @@
 		top: 50vh;
 		left: 50vw;
         transform: translate(-50%, -50%);
-		background: var(--bg-dark);
+		background: var(--bg-primary);
 		color: var(--text-light);
 	}
 	hr {
@@ -87,7 +87,7 @@
 		height: 30px;
 		width: 30px;
 		border-radius: 50%;
-		background: var(--bg-dark-subtle);
+		background: var(--bg-secondary);
 		position: fixed;
 		top: 5%;
 		right: 2%;

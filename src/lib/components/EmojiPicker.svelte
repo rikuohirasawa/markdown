@@ -97,14 +97,13 @@
     button {
         padding: 4px 8px;
         height: 30px;
-        background: var(--bg-dark);
+        background: var(--bg-primary);
         color: var(--text-light);
-        border-radius: 4px;
     }
 
     .tooltip {
         width: fit-content;
-        background: var(--bg-dark);
+        background: var(--bg-primary);
         font-size: 12px;
         padding: 8px;
         border-radius: 2px;

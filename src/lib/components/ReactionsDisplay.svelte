@@ -51,10 +51,9 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        border-radius: 4px;
         height: 30px; 
         font-weight: 200;
-        background: var(--bg-dark);
+        background: var(--bg-primary);
         color: var(--text-light);
     }
 

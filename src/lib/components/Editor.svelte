@@ -8,6 +8,7 @@
     import Modal from "$lib/components/ui/Modal.svelte";
     import MarkdownPreview from "./MarkdownPreview.svelte";
     import ShareButton from "./ShareButton.svelte";
+	import DarkModeButton from "./DarkModeButton.svelte";
 
     let showModal = false;
     let shareableURL = "";
@@ -54,7 +55,7 @@
                 toast.success("Copied to clipboard", { position: "top-center" });
             }}
         >
-            <Icon icon="solar:copy-line-duotone" width="20" color="var(--bg-dark)"/>
+            <Icon icon="solar:copy-line-duotone" width="20" color="var(--bg-primary)"/>
         </button>
     </div>
     <p class="text-light">Make sure to save your link somewhere safe - as this is the only time you will have access to it</p>
@@ -75,6 +76,7 @@
                 bind:value={markdownContent}
                 />
             <div class="form-footer">
+                <DarkModeButton />
                 <ShareButton {uuid} />
             </div>
         </div>
@@ -96,7 +98,7 @@
         gap: 20px;
         align-items: center;
         padding: 1rem;
-        background: var(--bg-dark-subtle);
+        background: var(--bg-secondary);
         border-radius: 6px;
     }
     .url-wrapper a {
@@ -108,7 +110,6 @@
 
     .url-wrapper button {
         padding: 10px;
-        border-radius: 4px;
         background: var(--accent-green);
         outline: none;
         border: none;
@@ -148,7 +149,7 @@
         width: 100%;
         flex-grow: 1;
         padding: 12px;
-        background: var(--bg-dark);
+        background: var(--bg-primary);
         color: var(--text-light);
         resize: none;
         overflow-y: auto;
@@ -162,11 +163,11 @@
 
     .form-footer {
         border-top: 1px solid var(--white-soft);
-        background: var(--bg-dark);
+        background: var(--bg-primary);
         height: fit-content;
         display: flex;
         align-items: flex-end;
-        justify-content: flex-end;
+        justify-content: space-between;
         max-height: 40px;
     }
     
