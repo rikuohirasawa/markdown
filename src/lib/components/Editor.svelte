@@ -11,6 +11,9 @@
 	import DarkModeButton from "./DarkModeButton.svelte";
     import { createCollapsible, melt } from '@melt-ui/svelte';
     import { slide } from 'svelte/transition';
+    import ChevronUpIcon from "../../assets/icons/chevronUp.json";
+    import ChevronDownIcon from "../../assets/icons/chevronDown.json";
+    import CopyIcon from "../../assets/icons/copy.json";
 
     let showModal = false;
     let shareableURL = "";
@@ -61,7 +64,7 @@
                 toast.success("Copied to clipboard", { position: "top-center" });
             }}
         >
-            <Icon icon="solar:copy-line-duotone" width="20" color="var(--bg-primary)"/>
+            <Icon icon={CopyIcon} width="20" color="var(--bg-primary)"/>
         </button>
     </div>
     <p class="text-light">Make sure to save your link somewhere safe - as this is the only time you will have access to it</p>
@@ -84,9 +87,9 @@
             <div use:melt={$root}>
                 <button type="button" use:melt={$trigger} class="toggle-collapse">
                     {#if $open}
-                        <Icon icon="fa6-solid:chevron-down" width="16" color="var(--white-med)"/>
+                        <Icon icon={ChevronDownIcon} width="16" color="var(--white-med)"/>
                     {:else}
-                        <Icon icon="fa6-solid:chevron-up" width="16" color="var(--white-med)"/>
+                        <Icon icon={ChevronUpIcon} width="16" color="var(--white-med)"/>
                     {/if}
                 </button>
             </div>

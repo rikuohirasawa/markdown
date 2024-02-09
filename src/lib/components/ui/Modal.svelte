@@ -1,5 +1,6 @@
 <script lang="ts">
-	import Icon from "@iconify/svelte"
+	import Icon from "@iconify/svelte";
+	import CloseIcon from "../../../assets/icons/close.json";
 
 	export let showModal: boolean;
 
@@ -25,7 +26,7 @@
 			on:click={() => dialog.close()}
 			class="close-btn"
 		>
-			<Icon icon="material-symbols:close" width="18" color="var(--text-light)"/>
+			<Icon icon={CloseIcon} width="18" color="var(--text-light)"/>
 		</button>
 		<!-- <hr /> -->
 	</div>

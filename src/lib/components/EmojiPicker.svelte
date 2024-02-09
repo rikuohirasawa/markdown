@@ -2,13 +2,14 @@
     import { onMount, createEventDispatcher } from 'svelte';
     import { createPopover, createTooltip, melt } from '@melt-ui/svelte';
     import { fade } from 'svelte/transition';
-    import Icon from "@iconify/svelte"
+    import Icon from "@iconify/svelte";
     import { v4 as uuidv4 } from 'uuid';
 	import { enhance } from '$app/forms';
     import { page } from "$app/stores";
     import toast from "svelte-french-toast";
     import type { ActionResultExtended, SelectedReaction } from '$lib/utils';
 	import type { SubmitFunction } from '@sveltejs/kit';
+    import AddIcon from "../../assets/icons/add.json";
     
     let form: HTMLFormElement;
     let emojiElement: HTMLInputElement;
@@ -73,7 +74,7 @@
   </script>
 
     <button class="emoji-picker-toggle" use:melt={$trigger} use:melt={$ttTrigger}>
-        <Icon icon="mdi:add-bold" width="16"/>
+        <Icon icon={AddIcon} width="16"/>
     </button>
     {#if $ttOpen}
         <div class="tooltip" use:melt={$ttContent} transition:fade={{duration: 100}}>

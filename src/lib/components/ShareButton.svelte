@@ -1,11 +1,14 @@
 <script lang="ts">
-    import Icon from "@iconify/svelte"
+    import Icon from "@iconify/svelte";
+    import SaveIcon from "../../assets/icons/save.json";
+    import ShareIcon from "../../assets/icons/share.json";
+
     export let uuid: string;
 </script>
 
 <button type="submit">
     {uuid ? "Save your work" : "Share your work"}
-    <Icon icon={uuid ? "mdi:content-save" : "mdi:share" } width="16"/>
+    <Icon icon={uuid ? SaveIcon : ShareIcon } width="16"/>
 </button>
 
 <style>
