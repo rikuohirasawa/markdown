@@ -3,16 +3,17 @@
     import { createPopover, createTooltip, melt } from '@melt-ui/svelte';
     import { fade } from 'svelte/transition';
     import Icon from "@iconify/svelte"
-
+    import { v4 as uuidv4 } from 'uuid';
 	import { enhance } from '$app/forms';
     import { page } from "$app/stores";
     import toast from "svelte-french-toast";
-    import type { ActionResultExtended } from '$lib/utils';
+    import type { ActionResultExtended, SelectedReaction } from '$lib/utils';
 	import type { SubmitFunction } from '@sveltejs/kit';
     
     let form: HTMLFormElement;
     let emojiElement: HTMLInputElement;
     let importEmojiPickerImported = false;
+    let selectedReaction: SelectedReaction;
     const dispatch = createEventDispatcher();
     
     onMount(() => {
@@ -27,6 +28,7 @@
     const handleClickEmoji = async (event: any) => {
         // using browser native api here to avoid race condition
         emojiElement.value = event.detail.unicode;
+        selectedReaction = { emoji: event.detail.unicode, feedbackId: uuidv4()};
         form.requestSubmit();
     };
 
@@ -34,7 +36,10 @@
         try {
             return ({ result }) => {
                 const res = result as ActionResultExtended;
-                dispatch("addReaction", res.data.content);
+                dispatch("addReaction", {
+                    content: res.data.content,
+                    selected: selectedReaction,
+                });
             };
         } catch (error) {
             toast.error("Failed to add reaction", {
@@ -113,6 +118,11 @@
         position: absolute;
         top: 0%;
         right: 100%;
+
+        @media screen and (max-width: 875px){
+            left: 50%;
+            right: auto;
+        }
     }
 
     emoji-picker {

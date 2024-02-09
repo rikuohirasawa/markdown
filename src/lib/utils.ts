@@ -7,6 +7,11 @@ export interface Reaction {
     markdown_id: string,
 };
 
+export interface SelectedReaction {
+    feedbackId?: string;
+    emoji: string;
+}
+
 export type ActionResultExtended = ActionResult & 
     { 
     data: { content: string }, 

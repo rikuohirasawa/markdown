@@ -3,12 +3,10 @@
     import DOMPurify from "isomorphic-dompurify";
     export let markdown = "";
     $: compiledMarkdown = "";
-    $: if (markdown) {
-        (async () => {
+    $: (async () => {
             const parsed = await marked.parse(markdown);
             compiledMarkdown = DOMPurify.sanitize(parsed);
         })();
-    };
 </script>
 
 <div>{@html compiledMarkdown}</div>

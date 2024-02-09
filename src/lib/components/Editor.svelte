@@ -9,6 +9,8 @@
     import MarkdownPreview from "./MarkdownPreview.svelte";
     import ShareButton from "./ShareButton.svelte";
 	import DarkModeButton from "./DarkModeButton.svelte";
+    import { createCollapsible, melt } from '@melt-ui/svelte';
+    import { slide } from 'svelte/transition';
 
     let showModal = false;
     let shareableURL = "";
@@ -38,7 +40,11 @@
             }
         }
     };
-  
+
+    const {
+        elements: { root, content, trigger },
+        states: { open },
+    } = createCollapsible({ defaultOpen: true });
 </script>
 
 <Modal bind:showModal>
@@ -75,18 +81,27 @@
                 placeholder="Enter markdown here"
                 bind:value={markdownContent}
                 />
-            <div class="form-footer">
+            <div use:melt={$root}>
+                <button type="button" use:melt={$trigger} class="toggle-collapse">
+                    {#if $open}
+                        <Icon icon="fa6-solid:chevron-down" width="16" color="var(--white-med)"/>
+                    {:else}
+                        <Icon icon="fa6-solid:chevron-up" width="16" color="var(--white-med)"/>
+                    {/if}
+                </button>
+            </div>
+            {#if $open}
+            <div class="form-footer" use:melt={$content} transition:slide>
                 <DarkModeButton />
                 <ShareButton {uuid} />
             </div>
+            {/if}
         </div>
     </form>
     <MarkdownPreview markdown={markdownContent}/>
 </div>
 
-
 <style>
-
     /* modal styles */
 
     .text-light {
@@ -161,6 +176,15 @@
         }
     }
 
+    .toggle-collapse {
+        border-top: 1px solid var(--white-soft);
+        background: var(--bg-primary);
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        padding: 4px 12px;
+        border-radius: 0;
+    }
     .form-footer {
         border-top: 1px solid var(--white-soft);
         background: var(--bg-primary);
