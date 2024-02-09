@@ -40,7 +40,6 @@
 	"dependencies": {
 		"@emoji-mart/data": "^1.1.2",
 		"@iconify/svelte": "^3.1.6",
-		"@joeattardi/emoji-button": "^4.6.4",
 		"@popperjs/core": "^2.11.8",
 		"@svelteuidev/composables": "^0.15.4",
 		"@svelteuidev/core": "^0.15.4",
