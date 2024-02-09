@@ -9,6 +9,7 @@
     import MarkdownPreview from "./MarkdownPreview.svelte";
     import ShareButton from "./ShareButton.svelte";
 	import DarkModeButton from "./DarkModeButton.svelte";
+    import ToggleHtmlButton from "./ToggleHTMLButton.svelte";
     import { createCollapsible, melt } from '@melt-ui/svelte';
     import { slide } from 'svelte/transition';
     import ChevronUpIcon from "../../assets/icons/chevronUp.json";
@@ -95,7 +96,10 @@
             </div>
             {#if $open}
             <div class="form-footer" use:melt={$content} transition:slide>
-                <DarkModeButton />
+                <div class="buttons-row">
+                    <DarkModeButton />
+                    <ToggleHtmlButton />
+                </div>
                 <ShareButton {uuid} />
             </div>
             {/if}
@@ -196,6 +200,13 @@
         align-items: flex-end;
         justify-content: space-between;
         max-height: 40px;
+    }
+
+    .buttons-row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        padding-bottom: 4px;
     }
     
 </style>
