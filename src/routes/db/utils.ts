@@ -4,6 +4,7 @@ import {
     PG_DATABASE,
     PG_HOST,
     PG_USER,
+    PG_PASSWORD,
 } from '$env/static/private';
 
 // kysely types
@@ -33,6 +34,7 @@ const dialect = new PostgresDialect({
         idleTimeoutMillis: 30000,
         connectionTimeoutMillis: 2000,
         database: PG_DATABASE,   
+        password: PG_PASSWORD
     })
 });
 
