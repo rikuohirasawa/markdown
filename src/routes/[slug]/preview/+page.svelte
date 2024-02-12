@@ -1,20 +1,43 @@
 <script lang="ts">
-    import { type Reaction } from "$lib/utils";
+    import { type Reaction, type SelectedReaction, getReactionsArray } from "$lib/utils";
     import DarkModeButton from "$lib/components/DarkModeButton.svelte";
-
+    import EmojiPicker from "$lib/components/EmojiPicker.svelte";
+    import ReactionsDisplay from "$lib/components/ReactionsDisplay.svelte";
+    import EmojiFeedback from "$lib/components/EmojiFeedback.svelte";
+    
     export let data: { uuid: string, content: string, reactions: Reaction[] };
     const { content, uuid, reactions } = data;
+    let reactionsArray = getReactionsArray(uuid, reactions);
+    let reactionFeedbackArr: SelectedReaction[] = [];
+
+    const addReaction = (event: CustomEvent) => {
+        const { selected } = event.detail;
+        reactionFeedbackArr = [...reactionFeedbackArr, selected];
+        setTimeout(() => {
+            reactionFeedbackArr = reactionFeedbackArr.filter(e => e.feedbackId !== selected.feedbackId);
+        }, 1000);
+        return reactionsArray = getReactionsArray(uuid, event.detail.content);
+    };
 </script>
 
-<div>
+<div class="content">
     {@html content}
 </div>
 <footer>
     <DarkModeButton iconSize={20}/>
+    <div class="reactions-display-wrapper">
+        <div class="emoji-picker-wrapper">
+            <EmojiPicker on:addReaction={addReaction} />
+        </div>
+        <ReactionsDisplay reactions={reactionsArray} on:addReaction={addReaction}/>
+    </div>
 </footer>
+{#each reactionFeedbackArr as reaction}
+    <EmojiFeedback emoji={reaction.emoji} />
+{/each}
 
 <style>
-        div {
+        .content {
             height: 94%;
             padding: 16px;
             overflow-y: auto;
@@ -31,5 +54,18 @@
             align-items: center;
             padding: 0px 12px;
             background: var(--bg-secondary);
+        }
+        .reactions-display-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            height: 100%;
+        }
+        .emoji-picker-wrapper {
+            display: flex;
+            align-items: center;
+            height: fit-content;
+            padding: 0;
         }
 </style>

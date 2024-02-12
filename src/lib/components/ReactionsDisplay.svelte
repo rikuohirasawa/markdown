@@ -35,9 +35,9 @@
 {#if reactions.length > 0} 
     <div class="reactions-wrapper">
         {#each reactions as reaction (reaction.emoji)}
-            <form method="POST" action="?/addReaction" use:enhance={formSubmitHandler}>
+            <form method="POST" action="/[slug]?/addReaction" use:enhance={formSubmitHandler}>
                 <input type="hidden" name="content" bind:value={reaction.emoji}/>
-                <input type="hidden" name="uuid" value={$page.url.pathname.substring(1)} />
+                <input type="hidden" name="uuid" value={$page.url.pathname.substring(1, 37)} />
                 <button class="reaction" type="submit" on:click={()=>onClickEmoji(reaction)}>
                     <span class="emoji">{reaction.emoji.trimEnd()}</span>
                     <span>{reaction.count}</span>

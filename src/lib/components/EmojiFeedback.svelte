@@ -1,22 +1,27 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+
     export let emoji = '';
+
+    let style = "opacity: 1;";
+
+    onMount(() => {
+          style = `animation: popAndFade 1.25s ease forwards;
+          position: fixed;
+          top: 20%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 2rem;`;
+      });
 </script>
 
-  <div class="emoji-animation" 
+  <div class="emoji-animation" {style}
   >
     {emoji}
   </div>
 
 <style>
-    .emoji-animation {
-      font-size: 2rem;
-      position: fixed;
-      top: 20%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      animation: popAndFade 1.25s ease forwards;
-    }
-    @keyframes popAndFade {
+    @keyframes -global-popAndFade {
     0% {
       transform: translateX(-50%) scale(0);
       opacity: 1;

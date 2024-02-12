@@ -89,11 +89,11 @@
         transition:fade={{ duration: 100 }}
         bind:this={form}
         method="POST" 
-        action="?/addReaction"
+        action="/[slug]?/addReaction"
         use:enhance={formSubmitHandler}
     >
         <input type="hidden" name="content" bind:this={emojiElement} />
-        <input type="hidden" name="uuid" value={$page.url.pathname.substring(1)} />
+        <input type="hidden" name="uuid" value={$page.url.pathname.substring(1, 37)} />
         <emoji-picker on:emoji-click={handleClickEmoji} class="dark" />
     </form>
   {/if}
