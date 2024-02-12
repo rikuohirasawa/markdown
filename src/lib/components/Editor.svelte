@@ -55,7 +55,7 @@
 	<div slot="header">
         <h2>Work Saved</h2>
         <p class="text-light">Use the link below to share your work </p>
-        <p class="text-light">NOTE: navigator.clipboard does not work on http - so its not working here but just imagine it copies to your clipboard and a toast appears</p>
+        <p class="text-light" style="font-size: 12px;">NOTE: navigator.clipboard does not work on http - so its not working here but just imagine it copies to your clipboard and a toast appears</p>
 	</div>
     <div class="url-wrapper">
         <a href={shareableURL} target="_blank">{shareableURL}</a>

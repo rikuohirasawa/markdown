@@ -4,13 +4,14 @@
     import SunIcon from "../../assets/icons/sun.json";
     import MoonIcon from "../../assets/icons/moon.json";
 
+    export let iconSize = 16;
 </script>
 
 <button on:click={toggleDarkMode} type="button">
     {#if $theme.darkMode}
-        <Icon icon={SunIcon} width="16" color="var(--accent-green)"/>
+        <Icon icon={SunIcon} width={iconSize} color="var(--accent-green)"/>
     {:else}
-        <Icon icon={MoonIcon} width="16"/>
+        <Icon icon={MoonIcon} width={iconSize}/>
     {/if}
 </button>
 
