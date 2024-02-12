@@ -5,7 +5,6 @@
     import { enhance } from "$app/forms";
     import { page } from "$app/stores";
     import type { ActionResultExtended } from "$lib/utils";
-    import Modal from "$lib/components/ui/Modal.svelte";
     import MarkdownPreview from "./MarkdownPreview.svelte";
     import ShareButton from "./ShareButton.svelte";
 	import DarkModeButton from "./DarkModeButton.svelte";
@@ -14,14 +13,14 @@
     import { slide } from 'svelte/transition';
     import ChevronUpIcon from "../../assets/icons/chevronUp.json";
     import ChevronDownIcon from "../../assets/icons/chevronDown.json";
-    import CopyIcon from "../../assets/icons/copy.json";
+    import UrlShareModal from "./URLShareModal.svelte";
 
     let showModal = false;
     let shareableURL = "";
     
     export let markdownContent = "";
 
-    // on homepage this will assign an empty string - which will be handled in the backend
+    // on homepage this will assign an empty string - for which a condition exists in the backend
     const uuid = $page.url.pathname.substring(1);
 
     const formSubmitHandler: SubmitFunction = () => {
@@ -51,29 +50,7 @@
     } = createCollapsible({ defaultOpen: true });
 </script>
 
-<Modal bind:showModal>
-	<div slot="header">
-        <h2>Work Saved</h2>
-        <p class="text-light">Use the link below to share your work </p>
-        <p class="text-light" style="font-size: 12px;">NOTE: navigator.clipboard does not work on http - so its not working here but just imagine it copies to your clipboard and a toast appears</p>
-	</div>
-    <div class="url-wrapper">
-        <a href={shareableURL} target="_blank">{shareableURL}</a>
-        <button 
-            disabled
-            style="cursor: not-allowed;"
-            class="clipboard-button"
-            on:click={()=>{
-                navigator.clipboard.writeText(shareableURL);
-                toast.success("Copied to clipboard", { position: "top-center" });
-            }}
-        >
-            <Icon icon={CopyIcon} width="20" color="var(--bg-primary)"/>
-        </button>
-    </div>
-    <p class="text-light">Make sure to save your link somewhere safe - as this is the only time you will have access to it</p>
-</Modal>
-
+<UrlShareModal bind:showModal dynamicShareURL={shareableURL}/>
 <div class="flex-row">
     <form 
         method="POST" 
@@ -112,53 +89,6 @@
 </div>
 
 <style>
-    /* modal styles */
-
-    .text-light {
-        font-weight: 200;
-    }
-    .url-wrapper {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        align-items: center;
-        padding: 1rem;
-        background: var(--bg-secondary);
-        border-radius: 6px;
-    }
-    .url-wrapper a {
-        color: inherit;
-        overflow-x: auto;
-        white-space: nowrap;
-        padding: 8px;
-    }
-
-    .url-wrapper button {
-        padding: 10px;
-        background: var(--accent-green);
-        outline: none;
-        border: none;
-        cursor: pointer;
-
-        &:hover {
-            opacity: 0.8;
-        }
-    }
-
-    ::-webkit-scrollbar {
-        width: 4px;
-        height: 4px;
-        border-radius: 12px;
-
-    }
-    ::-webkit-scrollbar-track {
-        background: #f1f1f1; 
-    }
-    ::-webkit-scrollbar-thumb {
-        background: #888; 
-        border-radius: 12px;
-        height: 2px;
-    }
     .flex-row {
         display: flex;
     }
