@@ -17,6 +17,7 @@
         div {
             height: 94%;
             padding: 16px;
+            overflow-y: auto;
         }
 
         footer {
