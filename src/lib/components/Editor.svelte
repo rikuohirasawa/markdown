@@ -6,14 +6,14 @@
     import { page } from "$app/stores";
     import type { ActionResultExtended } from "$lib/utils";
     import MarkdownPreview from "./MarkdownPreview.svelte";
-    import ShareButton from "./ShareButton.svelte";
-	import DarkModeButton from "./DarkModeButton.svelte";
-    import ToggleHtmlButton from "./ToggleHTMLButton.svelte";
+    import ShareButton from "./buttons/ShareButton.svelte";
+	import DarkModeButton from "./buttons/DarkModeButton.svelte";
+    import ToggleHtmlButton from "./buttons/ToggleHTMLButton.svelte";
     import { createCollapsible, melt } from '@melt-ui/svelte';
     import { slide } from 'svelte/transition';
     import ChevronUpIcon from "../../assets/icons/chevronUp.json";
     import ChevronDownIcon from "../../assets/icons/chevronDown.json";
-    import UrlShareModal from "./URLShareModal.svelte";
+    import UrlShareModal from "./modal/URLShareModal.svelte";
 
     let showModal = false;
     let shareableURL = "";

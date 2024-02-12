@@ -1,7 +1,7 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
-    import SaveIcon from "../../assets/icons/save.json";
-    import ShareIcon from "../../assets/icons/share.json";
+    import SaveIcon from "../../../assets/icons/save.json";
+    import ShareIcon from "../../../assets/icons/share.json";
 
     export let uuid: string;
 </script>

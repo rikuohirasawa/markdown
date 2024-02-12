@@ -9,7 +9,7 @@
     import toast from "svelte-french-toast";
     import type { ActionResultExtended, SelectedReaction } from '$lib/utils';
 	import type { SubmitFunction } from '@sveltejs/kit';
-    import AddIcon from "../../assets/icons/add.json";
+    import AddIcon from "../../../assets/icons/add.json";
     
     let form: HTMLFormElement;
     let emojiElement: HTMLInputElement;

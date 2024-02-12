@@ -1,7 +1,7 @@
 <script lang="ts">
     import toast from "svelte-french-toast";
     import Icon from "@iconify/svelte"
-    import CopyIcon from "../../assets/icons/copy.json";
+    import CopyIcon from "../../../assets/icons/copy.json";
 
     export let url: string;
 </script>

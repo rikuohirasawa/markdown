@@ -1,7 +1,7 @@
 <script lang="ts">
         import Icon from "@iconify/svelte";
         import toast from "svelte-french-toast";
-        import HTMLicon from "../../assets/icons/html.json";
+        import HTMLicon from "../../../assets/icons/html.json";
         import { toggleHtml, htmlStore } from "$lib/stores/html";
         import { theme } from "$lib/stores/theme";
 </script>

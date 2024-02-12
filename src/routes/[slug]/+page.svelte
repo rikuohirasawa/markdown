@@ -1,10 +1,10 @@
 <script lang="ts">
     import Editor from "$lib/components/Editor.svelte";
-    import EmojiPicker from "$lib/components/EmojiPicker.svelte";
+    import EmojiPicker from "$lib/components/reactions/EmojiPicker.svelte";
     import { type Reaction, type SelectedReaction } from "$lib/utils";
-    import ReactionsDisplay from "$lib/components/ReactionsDisplay.svelte";
+    import ReactionsDisplay from "$lib/components/reactions/ReactionsDisplay.svelte";
     import { getReactionsArray } from "$lib/utils";
-    import EmojiFeedback from "$lib/components/EmojiFeedback.svelte";
+    import EmojiFeedback from "$lib/components/reactions/EmojiFeedback.svelte";
 
     export let data: {  uuid: string, content: string, reactions: Reaction[] };
     const { content, uuid, reactions } = data;

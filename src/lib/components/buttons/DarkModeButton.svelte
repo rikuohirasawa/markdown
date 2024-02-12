@@ -1,8 +1,8 @@
 <script lang="ts">
     import { theme, toggleDarkMode } from "$lib/stores/theme";
     import Icon from "@iconify/svelte";
-    import SunIcon from "../../assets/icons/sun.json";
-    import MoonIcon from "../../assets/icons/moon.json";
+    import SunIcon from "../../../assets/icons/sun.json";
+    import MoonIcon from "../../../assets/icons/moon.json";
 
     export let iconSize = 16;
 </script>

@@ -1,9 +1,9 @@
 <script lang="ts">
     import { type Reaction, type SelectedReaction, getReactionsArray } from "$lib/utils";
-    import DarkModeButton from "$lib/components/DarkModeButton.svelte";
-    import EmojiPicker from "$lib/components/EmojiPicker.svelte";
-    import ReactionsDisplay from "$lib/components/ReactionsDisplay.svelte";
-    import EmojiFeedback from "$lib/components/EmojiFeedback.svelte";
+    import DarkModeButton from "$lib/components/buttons/DarkModeButton.svelte";
+    import EmojiPicker from "$lib/components/reactions/EmojiPicker.svelte";
+    import ReactionsDisplay from "$lib/components/reactions/ReactionsDisplay.svelte";
+    import EmojiFeedback from "$lib/components/reactions/EmojiFeedback.svelte";
     
     export let data: { uuid: string, content: string, reactions: Reaction[] };
     const { content, uuid, reactions } = data;
@@ -61,6 +61,13 @@
             align-items: center;
             gap: 10px;
             height: 100%;
+
+            @media screen and (max-width: 875px){
+            position: fixed;
+            top: 0%;
+            right: 2%;
+            flex-direction: column;
+        }
         }
         .emoji-picker-wrapper {
             display: flex;
