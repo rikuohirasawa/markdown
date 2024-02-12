@@ -1,40 +1,32 @@
 <script lang="ts">
-    import { type Reaction, type SelectedReaction, getReactionsArray } from "$lib/utils";
+    import { htmlStore } from "$lib/stores/html";
+    import { type Reaction, parseMarkdown } from "$lib/utils";
     import DarkModeButton from "$lib/components/buttons/DarkModeButton.svelte";
-    import EmojiPicker from "$lib/components/reactions/EmojiPicker.svelte";
-    import ReactionsDisplay from "$lib/components/reactions/ReactionsDisplay.svelte";
-    import EmojiFeedback from "$lib/components/reactions/EmojiFeedback.svelte";
-    
-    export let data: { uuid: string, content: string, reactions: Reaction[] };
-    const { content, uuid, reactions } = data;
-    let reactionsArray = getReactionsArray(uuid, reactions);
-    let reactionFeedbackArr: SelectedReaction[] = [];
+    import ReactionsDisplay from "$lib/components/reactions/Display.svelte";
+    import ToggleHtmlButton from "$lib/components/buttons/ToggleHTMLButton.svelte";
 
-    const addReaction = (event: CustomEvent) => {
-        const { selected } = event.detail;
-        reactionFeedbackArr = [...reactionFeedbackArr, selected];
-        setTimeout(() => {
-            reactionFeedbackArr = reactionFeedbackArr.filter(e => e.feedbackId !== selected.feedbackId);
-        }, 1000);
-        return reactionsArray = getReactionsArray(uuid, event.detail.content);
+    export let data: { uuid: string, content: string, reactions: Reaction[] };
+    const { content } = data;
+    let markdown = content;
+
+    const updateMarkdown = async (md: string, htmlMode: boolean) => {
+        markdown = await parseMarkdown(md, htmlMode);
     };
+
+    $: markdown, $htmlStore, updateMarkdown(content, $htmlStore);
 </script>
 
 <div class="content">
-    {@html content}
+    {@html markdown}
 </div>
 <footer>
-    <DarkModeButton iconSize={20}/>
-    <div class="reactions-display-wrapper">
-        <div class="emoji-picker-wrapper">
-            <EmojiPicker on:addReaction={addReaction} />
-        </div>
-        <ReactionsDisplay reactions={reactionsArray} on:addReaction={addReaction}/>
+    <div class="buttons-row">
+        <DarkModeButton iconSize={20}/>
+        <ToggleHtmlButton />
     </div>
+
+    <ReactionsDisplay {data} />
 </footer>
-{#each reactionFeedbackArr as reaction}
-    <EmojiFeedback emoji={reaction.emoji} />
-{/each}
 
 <style>
         .content {
@@ -54,25 +46,5 @@
             align-items: center;
             padding: 0px 12px;
             background: var(--bg-secondary);
-        }
-        .reactions-display-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            height: 100%;
-
-            @media screen and (max-width: 875px){
-            position: fixed;
-            top: 0%;
-            right: 2%;
-            flex-direction: column;
-        }
-        }
-        .emoji-picker-wrapper {
-            display: flex;
-            align-items: center;
-            height: fit-content;
-            padding: 0;
         }
 </style>

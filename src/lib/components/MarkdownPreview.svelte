@@ -1,24 +1,15 @@
 <script lang="ts">
-    import { marked } from "marked";
-    import DOMPurify from "isomorphic-dompurify";
     import { htmlStore } from "$lib/stores/html";
+    import { parseMarkdown } from "$lib/utils";
     export let markdown = "";
     let compiledMarkdown = "";
 
-    // escape html fx - https://stackoverflow.com/questions/6234773/can-i-escape-html-special-chars-in-javascript
-    const escapeHTML = (str: string) => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
 
-    const parseMarkdown = async (md: string) => {
-        let parsedMarkdown = await marked.parse(md);
-        if ($htmlStore) {
-            // if html is enabled sanitize the HTML
-            compiledMarkdown = DOMPurify.sanitize(parsedMarkdown);
-        } else {
-            // else - use regex to escape HTML tags and render plain text while still rendering markdown
-            compiledMarkdown = await marked.parse(escapeHTML(md));
-        }
+    const updateMarkdown = async (md: string, htmlMode: boolean) => {
+        compiledMarkdown = await parseMarkdown(md, htmlMode);
     };
-    $: markdown, $htmlStore, parseMarkdown(markdown);
+
+    $: markdown, $htmlStore, updateMarkdown(markdown, $htmlStore);
 
 </script>
 

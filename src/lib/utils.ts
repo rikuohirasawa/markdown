@@ -43,3 +43,21 @@ export const getReactionsArray = (uuid: string, reactions: Reaction[]) => {
     return defaultArray;
 };
 
+import { marked } from "marked";
+import DOMPurify from "isomorphic-dompurify";    
+
+// escape html fx - https://stackoverflow.com/questions/6234773/can-i-escape-html-special-chars-in-javascript
+const escapeHTML = (str: string) => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+
+export const parseMarkdown = async (md: string, htmlMode: boolean) => {
+    let compiledMarkdown: string;
+    let parsedMarkdown = await marked.parse(md);
+    if (htmlMode) {
+        // if html is enabled sanitize the HTML
+        compiledMarkdown = DOMPurify.sanitize(parsedMarkdown);
+    } else {
+        // else - use regex to escape HTML tags and render plain text while still rendering markdown
+        compiledMarkdown = await marked.parse(escapeHTML(md));
+    }
+    return compiledMarkdown;
+};
