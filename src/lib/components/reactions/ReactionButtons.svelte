@@ -8,9 +8,11 @@
     import { type Reaction, type ActionResultExtended, type SelectedReaction } from "$lib/utils";
     
     export let reactions: Reaction[];
+    let emojiElement: HTMLInputElement;
 
     let selectedReaction: SelectedReaction;
     const onClickEmoji = (reaction: Reaction) => {
+        emojiElement.value = reaction.emoji;
         selectedReaction = { emoji: reaction.emoji, feedbackId: uuidv4()};
     };
     const dispatch = createEventDispatcher();
@@ -33,23 +35,21 @@
 </script>
     
 {#if reactions.length > 0} 
-    <div class="reactions-wrapper">
-        {#each reactions as reaction (reaction.emoji)}
-            <form method="POST" action="/[slug]?/addReaction" use:enhance={formSubmitHandler}>
-                <input type="hidden" name="content" bind:value={reaction.emoji}/>
-                <input type="hidden" name="uuid" value={$page.url.pathname.substring(1, 37)} />
+    <form method="POST" action="/[slug]?/addReaction" use:enhance={formSubmitHandler}>
+        <input type="hidden" name="content" bind:this={emojiElement}/>
+        <input type="hidden" name="uuid" value={$page.url.pathname.substring(1, 37)} />
+            {#each reactions as reaction (reaction.emoji)}
                 <button class="reaction" type="submit" on:click={()=>onClickEmoji(reaction)}>
                     <span class="emoji">{reaction.emoji.trimEnd()}</span>
                     <span>{reaction.count}</span>
                 </button>
-            </form>
-        {/each}
-    </div>
+            {/each}
+    </form>
 {/if}
 
 <style>
 
-    .reactions-wrapper {
+    form {
         display: flex;
         justify-content: center;
         gap: 10px;
