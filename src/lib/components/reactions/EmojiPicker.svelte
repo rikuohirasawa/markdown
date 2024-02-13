@@ -10,7 +10,8 @@
     import type { ActionResultExtended, SelectedReaction } from '$lib/utils';
 	import type { SubmitFunction } from '@sveltejs/kit';
     import AddIcon from "../../../assets/icons/add.json";
-    
+    import { clickedReactions } from "$lib/stores/clickedReactions";
+
     let form: HTMLFormElement;
     let emojiElement: HTMLInputElement;
     let importEmojiPickerImported = false;
@@ -30,7 +31,15 @@
         // using browser native api here to avoid race condition
         emojiElement.value = event.detail.unicode;
         selectedReaction = { emoji: event.detail.unicode, feedbackId: uuidv4()};
-        form.requestSubmit();
+        if ($clickedReactions.has(event.detail.unicode.trimEnd())) {
+            return toast.error("You've already sent this reaction!", {
+                position: "top-center",
+                icon: "😔"
+            });
+        } else {
+            $clickedReactions.add(event.detail.unicode.trimEnd());
+            form.requestSubmit();
+        }
     };
 
     const formSubmitHandler: SubmitFunction = () => {

@@ -5,6 +5,7 @@ export interface Reaction {
     emoji: string,
     count: number,
     markdown_id: string,
+    clicked?: boolean,
 };
 
 export interface SelectedReaction {
@@ -14,7 +15,7 @@ export interface SelectedReaction {
 
 export type ActionResultExtended = ActionResult & 
     { 
-    data: { content: string }, 
+    data: { content: string | Reaction[]}, 
     location? : string
     };
 

@@ -25,7 +25,7 @@
         </div>
         <ReactionsDisplay reactions={reactionsArray} on:addReaction={addReaction}/>
     </div>
-    {#each reactionFeedbackArr as reaction}
+    {#each reactionFeedbackArr as reaction (reaction.feedbackId)}
         <EmojiFeedback emoji={reaction.emoji} />
     {/each}
 </div>

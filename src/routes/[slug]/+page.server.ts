@@ -6,22 +6,16 @@ export const ssr = true;
 
 export const load: Load = async ({ params }) => {
     const { slug } = params;
-    if (slug && slug.length !== 36) {
+    if (!slug || slug.length !== 36) {
         throw error(404, { message: "Not found" });
     };
-    if (slug) {
-        const rows = await db.selectFrom("urls.markdown").selectAll().where("uuid", "=", slug).execute();
-        if (!rows) {
-            throw error(404, { message: "Not found" });
-        };
-        const reactions = await db.selectFrom("urls.reactions").selectAll().where("markdown_id", "=", slug).execute();
-        const data = {...rows[0], reactions: reactions.sort((a, b) => b.count - a.count)};
-        return data;
-    } else {
-        return {
-            content: null,
-        }
+    const rows = await db.selectFrom("urls.markdown").selectAll().where("uuid", "=", slug).execute();
+    if (!rows) {
+        throw error(404, { message: "Not found" });
     };
+    const reactions = await db.selectFrom("urls.reactions").selectAll().where("markdown_id", "=", slug).execute();
+    const data = {...rows[0], reactions: reactions.sort((a, b) => b.count - a.count)};
+    return data;
 };
 
 export const actions = {
@@ -51,13 +45,12 @@ export const actions = {
                     markdown_id: uuid,
                 }).execute();
             };
-
             const reactionsList = await db.selectFrom("urls.reactions")
                 .selectAll()
                 .where("markdown_id", "=", uuid)
+                .orderBy("count", "desc")
                 .execute();
-            const sortedReactionsList = reactionsList.sort((a, b) => b.count - a.count);
-            return { content: sortedReactionsList}
+            return { content: reactionsList}
         } catch (error) {   
             NODE_ENV === "development" && console.error(error);
         }

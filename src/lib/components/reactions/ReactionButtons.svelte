@@ -6,14 +6,22 @@
     import toast from "svelte-french-toast";
     import { v4 as uuidv4 } from 'uuid';
     import { type Reaction, type ActionResultExtended, type SelectedReaction } from "$lib/utils";
-    
+    import { clickedReactions } from "$lib/stores/clickedReactions";
+
     export let reactions: Reaction[];
     let emojiElement: HTMLInputElement;
 
     let selectedReaction: SelectedReaction;
     const onClickEmoji = (reaction: Reaction) => {
+        if ($clickedReactions.has(reaction.emoji.trimEnd())) {
+            return toast.error("You've already sent this reaction!", {
+                position: "top-center",
+                icon: "😔"
+            });
+        };
         emojiElement.value = reaction.emoji;
         selectedReaction = { emoji: reaction.emoji, feedbackId: uuidv4()};
+        $clickedReactions.add(reaction.emoji.trimEnd());
     };
     const dispatch = createEventDispatcher();
     const formSubmitHandler: SubmitFunction = () => {
@@ -39,7 +47,7 @@
         <input type="hidden" name="content" bind:this={emojiElement}/>
         <input type="hidden" name="uuid" value={$page.url.pathname.substring(1, 37)} />
             {#each reactions as reaction (reaction.emoji)}
-                <button class="reaction" type="submit" on:click={()=>onClickEmoji(reaction)}>
+                <button type="submit" on:click={()=>onClickEmoji(reaction)} class:clicked={$clickedReactions.has(reaction.emoji.trimEnd())}>
                     <span class="emoji">{reaction.emoji.trimEnd()}</span>
                     <span>{reaction.count}</span>
                 </button>
@@ -68,6 +76,12 @@
         font-weight: 200;
         background: var(--bg-primary);
         color: var(--text-light);
+    }
+
+    .clicked {
+        pointer-events: none;
+        border: 1px solid var(--accent-green);
+        opacity: 0.7;
     }
 
     .emoji {
