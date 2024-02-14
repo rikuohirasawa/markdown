@@ -1,22 +1,22 @@
-# create-svelte
+# markdown editor
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+Text editor that parses markdown - which can be saved and shared with others.
 
-## Creating a project
+## PostgreSQL
 
-If you're seeing this, you've probably already done this step. Congrats!
+The application uses PostgreSQL as the db, one of the fastest ways to get this started is to run the db using the official docker image:
 
 ```bash
-# create a new project in the current directory
-npm create svelte@latest
+https://hub.docker.com/_/postgres
 
-# create a new project in my-app
-npm create svelte@latest my-app
+https://www.docker.com/blog/how-to-use-the-postgres-docker-official-image/
 ```
 
-## Developing
+## SvelteKit
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### Development
+
+Once you've installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
 ```bash
 npm run dev
@@ -25,14 +25,19 @@ npm run dev
 npm run dev -- --open
 ```
 
-## Building
+### Production
 
-To create a production version of your app:
+To create a production version of the app:
 
 ```bash
 npm run build
+
+# change origin to whatever domain/ip is attached to your server
+ORIGIN=http://localhost:3000 npm start
 ```
 
 You can preview the production build with `npm run preview`.
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+> At the moment the app is configured to use the [adapter-node](https://github.com/sveltejs/kit/tree/main/packages/adapter-node).
+> For serverless environments, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+> If you run the app serverless - I imagine you will have to reconfigure the websocket to get live text editing
