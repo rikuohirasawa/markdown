@@ -62,3 +62,14 @@ export const parseMarkdown = async (md: string, htmlMode: boolean) => {
     }
     return compiledMarkdown;
 };
+
+export const debounce = <F extends (...args: any[]) => void>(func: F, wait: number = 500): ((...args: Parameters<F>) => void) => {
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+  
+    return (...args: Parameters<F>) => {
+      if (timeout !== undefined) {
+        clearTimeout(timeout);
+      }
+      timeout = setTimeout(() => func(...args), wait);
+    };
+  };

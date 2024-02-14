@@ -1,11 +1,20 @@
 import pg from "pg";
 import { type Generated, PostgresDialect, Kysely } from "kysely";
-import { 
+// import { 
+//     PG_DATABASE,
+//     PG_HOST,
+//     PG_USER,
+//     PG_PASSWORD,
+// } from '$env/static/private';
+import 'dotenv/config'
+
+const {
     PG_DATABASE,
     PG_HOST,
     PG_USER,
     PG_PASSWORD,
-} from '$env/static/private';
+} = process.env;
+
 
 // kysely types
 export interface MarkdownTable {
