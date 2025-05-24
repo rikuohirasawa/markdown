@@ -14,7 +14,7 @@ From the root of the repo:
 # e.g. pnpm bootstrap pnpm
 ```
 
-This will create
+This will install dependencies and create a postgres container. The script is is idempotent.
 
 ## SvelteKit
 
@@ -24,7 +24,7 @@ This will create
 pnpm run dev
 
 # or start the server and open the app in a new browser tab
-npm run dev -- --open
+pnpm run dev -- --open
 ```
 
 ### Production
@@ -32,13 +32,13 @@ npm run dev -- --open
 To create a production version of the app:
 
 ```bash
-npm run build
+pnpm run build
 
 # change origin to whatever domain/ip is attached to your server
-ORIGIN=http://localhost:3000 npm start
+ORIGIN=http://localhost:3000 pnpm start
 ```
 
-You can preview the production build with `npm run preview`.
+You can preview the production build with `pnpm run preview`.
 
 > At the moment the app is configured to use the [adapter-node](https://github.com/sveltejs/kit/tree/main/packages/adapter-node).
 > For serverless environments, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
