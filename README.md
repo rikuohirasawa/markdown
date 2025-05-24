@@ -14,7 +14,7 @@ From the root of the repo:
 # e.g. pnpm bootstrap pnpm
 ```
 
-This will install dependencies and create a postgres container. The script is is idempotent.
+This will install dependencies and create a postgres container. The script is is idempotent, and will recreate the container when run in succession (deleting all your local data).
 
 ## SvelteKit
 
