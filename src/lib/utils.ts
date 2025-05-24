@@ -1,75 +1,86 @@
-import type { ActionResult } from "@sveltejs/kit";
+import type { ActionResult } from '@sveltejs/kit';
 
 export interface Reaction {
-    id?: number,
-    emoji: string,
-    count: number,
-    markdown_id: string,
-    clicked?: boolean,
-};
-
-export interface SelectedReaction {
-    feedbackId?: string;
-    emoji: string;
+	id?: number;
+	emoji: string;
+	count: number;
+	markdown_uuid: string;
+	clicked?: boolean;
 }
 
-export type ActionResultExtended = ActionResult & 
-    { 
-    data: { content: string | Reaction[]}, 
-    location? : string
-    };
+export interface SelectedReaction {
+	feedbackId?: string;
+	emoji: string;
+}
 
-const defaultEmojis = ["😀", "😍", "🤩", "😎", "🤯", "🤔"];
+export type ActionResultExtended = ActionResult & {
+	data: { content: string | Reaction[] };
+	location?: string;
+};
+
+const defaultEmojis = ['😀', '😍', '🤩', '😎', '🤯', '🤔'];
 
 export const getReactionsArray = (uuid: string, reactions: Reaction[]) => {
-    if (reactions.length > 6) {
-        return reactions.slice(0, 6);
-    };
-    const defaultArray: Reaction[] = defaultEmojis.map(emoji => { 
-        return { emoji, count: 0, markdown_id: uuid };
-    });
-    if (reactions.length <= 6 && reactions.length > 0) {
-        const arr = [ ...defaultArray ];
-        reactions.forEach((reaction => {
-            const index = arr.findIndex(defaultReaction => defaultReaction.emoji === reaction.emoji.trim());
-            if (index !== -1) {
-                // replace default reaction with actual reaction data
-                arr[index] = reaction;
-            } else {
-                arr.push(reaction);
-            }
-        }));
-        return arr.sort((a, b) => b.count - a.count).slice(0, 6);
-    };
-    return defaultArray;
+	if (reactions.length > 6) {
+		return reactions.slice(0, 6);
+	}
+	const defaultArray: Reaction[] = defaultEmojis.map((emoji) => {
+		return { emoji, count: 0, markdown_uuid: uuid };
+	});
+	if (reactions.length <= 6 && reactions.length > 0) {
+		const arr = [...defaultArray];
+		reactions.forEach((reaction) => {
+			const index = arr.findIndex(
+				(defaultReaction) => defaultReaction.emoji === reaction.emoji.trim()
+			);
+			if (index !== -1) {
+				// replace default reaction with actual reaction data
+				arr[index] = reaction;
+			} else {
+				arr.push(reaction);
+			}
+		});
+		return arr.sort((a, b) => b.count - a.count).slice(0, 6);
+	}
+	return defaultArray;
 };
 
-import { marked } from "marked";
-import DOMPurify from "isomorphic-dompurify";    
+import { marked } from 'marked';
+import DOMPurify from 'isomorphic-dompurify';
 
 // escape html fx - https://stackoverflow.com/questions/6234773/can-i-escape-html-special-chars-in-javascript
-const escapeHTML = (str: string) => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+const escapeHTML = (str: string) =>
+	str
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;')
+		.replace(/'/g, '&#039;');
 
 export const parseMarkdown = async (md: string, htmlMode: boolean) => {
-    let compiledMarkdown: string;
-    let parsedMarkdown = await marked.parse(md);
-    if (htmlMode) {
-        // if html is enabled sanitize the HTML
-        compiledMarkdown = DOMPurify.sanitize(parsedMarkdown);
-    } else {
-        // else - use regex to escape HTML tags and render plain text while still rendering markdown
-        compiledMarkdown = await marked.parse(escapeHTML(md));
-    }
-    return compiledMarkdown;
+	let compiledMarkdown: string;
+	const parsedMarkdown = await marked.parse(md);
+	if (htmlMode) {
+		// if html is enabled sanitize the HTML
+		compiledMarkdown = DOMPurify.sanitize(parsedMarkdown);
+	} else {
+		// else - use regex to escape HTML tags and render plain text while still rendering markdown
+		compiledMarkdown = await marked.parse(escapeHTML(md));
+	}
+	return compiledMarkdown;
 };
 
-export const debounce = <F extends (...args: any[]) => void>(func: F, wait: number = 500): ((...args: Parameters<F>) => void) => {
-    let timeout: ReturnType<typeof setTimeout> | undefined;
-  
-    return (...args: Parameters<F>) => {
-      if (timeout !== undefined) {
-        clearTimeout(timeout);
-      }
-      timeout = setTimeout(() => func(...args), wait);
-    };
-  };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const debounce = <F extends (...args: any[]) => void>(
+	func: F,
+	wait: number = 500
+): ((...args: Parameters<F>) => void) => {
+	let timeout: ReturnType<typeof setTimeout> | undefined;
+
+	return (...args: Parameters<F>) => {
+		if (timeout !== undefined) {
+			clearTimeout(timeout);
+		}
+		timeout = setTimeout(() => func(...args), wait);
+	};
+};
