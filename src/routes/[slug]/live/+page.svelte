@@ -9,28 +9,14 @@
 	export let markdownContent = content;
 	let textAreaElement: HTMLTextAreaElement;
 
-	// Connect to WebSocket on same origin (works for both dev and production)
 	const socket = io();
 
 	onMount(() => {
-		socket.on('connect', () => {
-			console.log('WebSocket connected:', socket.id);
-			socket.emit('joinRoom', uuid);
-		});
-
-		socket.on('connect_error', (error) => {
-			console.error('WebSocket connection error:', error);
-		});
-
-		socket.on('disconnect', (reason) => {
-			console.log('WebSocket disconnected:', reason);
-		});
+		socket.emit('joinRoom', uuid);
 	});
 
 	const updateMarkdown = debounce(() => {
-		if (socket.connected) {
-			socket.emit('updateMarkdown', { uuid, content: markdownContent });
-		}
+		socket.emit('updateMarkdown', { uuid, content: markdownContent });
 	}, 200);
 
 	socket.on('markdownUpdated', (res: { uuid: string; content: string }) => {

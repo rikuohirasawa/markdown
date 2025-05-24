@@ -10,7 +10,11 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
-		"start": "node ./server/index.js"
+		"start": "node ./server/index.js",
+		"clean:db": "docker compose down && (docker volume rm markdown_postgres_data || true) && docker compose up -d --force-recreate",
+		"migrate:up": "tsx database/migrate-up.ts",
+		"migrate:down": "tsx database/migrate-down.ts",
+		"bootstrap": "./scripts/bootstrap.sh"
 	},
 	"devDependencies": {
 		"@iconify/json": "^2.2.181",
@@ -37,7 +41,7 @@
 		"svelte": "^4.2.7",
 		"svelte-check": "^3.6.0",
 		"tslib": "^2.4.1",
-		"tsx": "^4.7.1",
+		"tsx": "^4.19.4",
 		"typescript": "^5.0.0",
 		"unplugin-icons": "^0.18.5",
 		"vite": "^5.0.3"
