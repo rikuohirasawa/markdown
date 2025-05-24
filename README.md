@@ -2,24 +2,26 @@
 
 Text editor that parses markdown - which can be saved and shared with others.
 
-## PostgreSQL
+## Setting up a local environment
 
-The application uses PostgreSQL as the db, one of the fastest ways to get this started is to run the db using the official docker image:
+Install docker and a node package manager (defaults to pnpm)
+
+From the root of the repo:
 
 ```bash
-https://hub.docker.com/_/postgres
+<PACKAGE_MANAGER> bootstrap <PACKAGE_MANAGER (optional - use this this if not using pnpm)>
 
-https://www.docker.com/blog/how-to-use-the-postgres-docker-official-image/
+# e.g. pnpm bootstrap pnpm
 ```
+
+This will create
 
 ## SvelteKit
 
 ### Development
 
-Once you've installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
 ```bash
-npm run dev
+pnpm run dev
 
 # or start the server and open the app in a new browser tab
 npm run dev -- --open
